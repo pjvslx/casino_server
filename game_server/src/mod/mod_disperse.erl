@@ -36,14 +36,23 @@ init([Ip, Port, ServeId, Gateways]) ->
     State = #server{id = ServeId, ip = Ip, port = Port, node = node(), state = ?SERVER_STATE_HOT, stop_access = 0} ,
 	case ServeId =:= 0 of  
 		true ->		
+			io:format("111111111111111~n"),
 			net_kernel:monitor_nodes(true) , 
+			io:format("222222222222222~n"),
 			ets:new(?ETS_SERVER, [{keypos, #server.id}, named_table, public, set]),
+			io:format("333333333333333~n"),
 			ets:new(config_server,[{keypos, #config_server.id}, named_table, public, set]) ,
+			io:format("444444444444444~n"),
 			lists:foreach(fun(D) ->
 								  ets:new(misc:create_atom(server_player, [D]), [{keypos, #server_player.uid}, named_table, public, set]) 
 						  end, lists:seq(1, ?DOMAIN_NUM)) ,  %% 200个大区够用了吧
+			io:format("555555555555555~n"),
 			load_server_config() ,
+			io:format("666666666666666~n"),
 			load_server_nodes() ,
+			io:format("777777777777777~n"),
+			% load_latest_business_announce(),%%查询出最新的公告消息 添加到进程字典
+			io:format("888888888888888~n"),
 			erlang:send_after(5 * ?FRESH_SERVER_TIMER , self(), {event, load_server}) ,
 			erlang:send_after(?FRESH_SERVER_TIMER, self(), {event, refresh_server_player}) ;
 		false ->	
