@@ -1,0 +1,8 @@
+
+=INFO REPORT==== 2014-05-07 10:47:16 ===I(<0.47.0>:game_server:19) : 2014-05-07 10:47:16 start initing server 96...
+
+
+=INFO REPORT==== 2014-05-07 10:47:17 ===I(<0.47.0>:game_server:32) : 2014-05-07 10:47:17 initing end server 96...
+
+
+=ERROR REPORT==== 2014-05-07 11:02:28 ===E(<0.123.0>:db_esql:215) : [db_error] Sql: select id, status, level, career, gender, nick, scene, x, y,drama_list from `player` where `account_name`='xxx' , ErrCode:1054, ErrState:42S22, Reason:Unknown column 'status' in 'field list'
