@@ -1,1 +1,2 @@
 /game_server/ebin/*.beam
+/game_server/logs

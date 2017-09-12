@@ -283,7 +283,10 @@ CREATE TABLE `opera` (
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `account_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '平台账号ID',
+  `imei` varchar(50) NOT NULL DEFAULT '' COMMENT 'imei号',
+  `third_token` varchar(50) NOT NULL DEFAULT '' COMMENT '三方平台token',
+  `third_provider` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '三方平台类型',
+  `bind_phone` varchar(20) NOT NULL DEFAULT '' COMMENT '绑定手机号',
   `account_name` varchar(50) NOT NULL DEFAULT '' COMMENT '平台账号',
   `nick` varchar(50) NOT NULL DEFAULT '' COMMENT '玩家名',
   `reg_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
@@ -310,14 +313,13 @@ CREATE TABLE `player` (
   KEY `level` (`level`) USING BTREE,
   KEY `account_name` (`account_name`) USING BTREE,
   KEY `last_login_time` (`last_login_time`) USING BTREE,
-  KEY `reg_time` (`reg_time`) USING BTREE,
-  KEY `account_id` (`account_id`)
+  KEY `reg_time` (`reg_time`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1060000000003 DEFAULT CHARSET=utf8 COMMENT='角色基本信息';
 
 -- ----------------------------
 -- Records of player
 -- ----------------------------
-INSERT INTO `player` VALUES ('1060000000002', '0', 'luyang', 'luyang', '1392345685', '0', '1392345685', '192.168.1.96', '0', '1', '1', '0', '0', '0', '0', '0', '0', '3', '1', '0', '5', '5', '0');
+-- INSERT INTO `player` VALUES ('1060000000002', '0', 'luyang', 'luyang', '1392345685', '0', '1392345685', '192.168.1.96', '0', '1', '1', '0', '0', '0', '0', '0', '0', '3', '1', '0', '5', '5', '0');
 
 -- ----------------------------
 -- Table structure for `server`
