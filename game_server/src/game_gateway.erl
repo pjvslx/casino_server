@@ -73,9 +73,10 @@ code_change(_OldVsn, Status, _Extra)->
 
 %%发送要连接的IP和port到客户端，并关闭连接
 handoff(Socket) ->
+	io:format("game_gateway:handoff ===============~n"),
     case gen_tcp:recv(Socket, ?HEADER_LENGTH) of
         {ok, <<Len:16, 60000:16>>} ->
-            ?TRACE("~s get_msg_60000 ~n",[misc:time_format(now())]),
+            io:format("~s get_msg_60000 ~n",[misc:time_format(now())]),
 			%%延时允许客户端连接
 			[{_,_,InitTime,AsyncTime,_MaxAllow}] = ets:match_object(gatewayinit,#gatewayinit{id =1 ,_='_'}),
 			Now = unixtime(),
@@ -83,42 +84,28 @@ handoff(Socket) ->
 			BodyLen = Len - ?HEADER_LENGTH,
 			case gen_tcp:recv(Socket, BodyLen, 3000) of
                 {ok, <<Bin/binary>>} ->
+                	io:format("recv success ========~n"),
 					{ok, [_DomainId,Accid,Tstamp,Accname, StrKey]} = pt_60:read(60000, Bin),
-					if
-						Now - AsyncTime > InitTime  ->
-							{ok, Data} = 
-								case check_accid_legal(Accid, Tstamp, StrKey) of
-									true ->
-										List = mod_disperse:get_server_list(Accid,Accname),
-										Pid = mod_disperse:get_mod_disperse_pid(),
-										BusinessInfo = gen_server:call(Pid, get_content),
-										if 
-											BusinessInfo == undefined ->
-												NewContent = "";
-											true ->
-												{BeginTime,EndTime,Content} = BusinessInfo,
-												if
-													Now >= BeginTime andalso Now =< EndTime ->
-														NewContent = Content;
-													true ->
-														NewContent = ""
-												end
-										end,
-										
-			            				{ok, Data1} = pt_60:write(60000, [1, NewContent, List]);
-									false ->
-										{ok, Data2} = pt_60:write(60000, 0)  
-								end,
-							gen_tcp:send(Socket, Data),
-		            		gen_tcp:close(Socket);
-						true ->
-							gen_tcp:close(Socket)
-					end ;
+					io:format("_DomainId = ~p, Accid = ~p, Tstamp = ~p, Accname = ~p StrKey = ~p~n",[_DomainId,Accid,Tstamp,Accname, StrKey]),
+					io:format("Now = ~p,AsyncTime = ~p,InitTime = ~p~n",[Now,AsyncTime,InitTime]),
+					List = mod_disperse:get_server_list(Accid,Accname),
+					io:format("List = ~p~n",[List]),
+					% Pid = mod_disperse:get_mod_disperse_pid(),
+					% BusinessInfo = gen_server:call(Pid,get_content),
+					% if BusinessInfo == undefined ->
+					% 	NewContent = "";
+					% true->
+					% 	{BeginTime,EndTime,Content} = BusinessInfo,
+					{ok,Data} = pt_60:write(60000, [1, "", List]),
+					gen_tcp:send(Socket, Data);
+            		% gen_tcp:close(Socket);
                  _ ->
+                 	io:format("recv failed~n"),
                     gen_tcp:close(Socket)
             end;
 			
         {ok, <<Len:16, 60001:16>>} ->
+        	io:format("60001===========~n"),
             BodyLen = Len - ?HEADER_LENGTH,
             case gen_tcp:recv(Socket, BodyLen, 3000) of
                 {ok, <<Bin/binary>>} ->
@@ -130,7 +117,8 @@ handoff(Socket) ->
                     gen_tcp:close(Socket)
             end;
         {ok, Packet} ->
-            ?TRACE("~s get_msg: ~p ~n",[misc:time_format(now()),Packet]),
+        	<<Len:16, Op_Code:16>> = Packet,
+            io:format("~s get_msg: ~p Op_Code = ~p Len = ~p ~n",[misc:time_format(now()),Packet,Op_Code,Len]),
 			P = tool:to_list(Packet),
 			P1 = string:left(P, 4),
 			if (P1 == "GET " orelse P1 == "POST") ->
@@ -141,6 +129,7 @@ handoff(Socket) ->
 					gen_tcp:close(Socket)
 			end;
         _Reason ->
+        	io:format("_Reason = ~p~n",[_Reason]),
             gen_tcp:close(Socket)	
     end.
 

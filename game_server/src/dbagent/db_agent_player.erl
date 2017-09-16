@@ -12,10 +12,10 @@
 -compile(export_all).
 
 %% 创建角色增加插入默认字段
-create_role(AccId, AccName , Gender, Name, RegTime, LoginTime) ->    
+create_role(Imei, AccName , Gender, Name, RegTime, LoginTime) ->    
     Player = #player{    
-      account_id = AccId,                               %% 平台账号ID    
       account_name = AccName,                           %% 平台账号    
+      imei = Imei,                                      %% 玩家IMEI号
       nick = Name,                                      %% 玩家名       
       reg_time = RegTime,                               %% 注册时间    
       last_login_time = LoginTime,                      %% 最后登陆时间    
@@ -53,6 +53,13 @@ insert_dialog_by_id(PlayerId,DialogId)->
     DialogData5 = util:list_to_string(DialogData4),
     ?DB_MODULE:update(player,[{dialog_info, DialogData5}],[{id, PlayerId}]).
 
+%% 通过IMEI取得账号ID
+get_accountid_by_imei(Imei)->
+  ?DB_MODULE:select_one(player,"account_id",[{imei,Imei}],[],[1]).
+
+%% 通过IMEI取得账号信息
+get_info_by_imei(Imei)->
+  ?DB_MODULE:select_row(player,"*", [{imei,Imei}],[],[1]).
 
 %% 通过角色ID取得帐号ID
 get_accountid_by_id(PlayerId) ->

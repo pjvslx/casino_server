@@ -76,44 +76,12 @@ login_parse_packet(Socket, Client) ->
                                     lib_account:getin_createpage(Accid),
                                     login_parse_packet(Socket, Client);
                                 {ok, login, Data} ->
-                                    [Accid, Accname, _,  _] = Data,
-                                    io:format("Accid = ~p Accname = ~p~n",[Accid,Accname]),
-                                    case pp_account:handle(10000, [], Data) of
-                                        {true, L} ->
-                                            case anti_revel_check(Accid, Accname) of
-                                                null ->
-                                                    io:format("anti_revel_check(Accid, Accname) = null"),
-                                                    {ok, BinData} = pt_10:write(10000, [2, Accid,[]]),
-                                                    lib_send:send_one(Socket, BinData),
-                                                    login_parse_packet(Socket, Client),  
-                                                    login_lost(Socket, Client, 2, "login fail");      
-                                                1 -> 
-                                                    io:format("anti_revel_check(Accid, Accname) = 1"),
-                                                    Client1 = Client#client{
-                                                                            login = 1,
-                                                                            account_id = Accid,
-                                                                            account_name = Accname
-                                                                           },  
-                                                    {ok, BinData} =
-                                                        case length(L) > 0 of
-                                                            true  -> pt_10:write(10000, [0, Accid, L]);
-                                                            false -> pt_10:write(10000, [1, Accid, L])
-                                                        end,     
-                                                    lib_send:send_one(Socket, BinData),
-                                                    login_parse_packet(Socket, Client1);
-                                                2 -> %% 3 - 离线时间还没超过5小时（防沉迷）
-                                                    io:format("anti_revel_check(Accid, Accname) = 2"),
-                                                    {ok, BinData} = pt_10:write(10000, [3, Accid, L]),
-                                                    lib_send:send_one(Socket, BinData),
-                                                    timer:sleep(10*1000),
-                                                    login_lost(Socket, Client, 1, "antirevel fail")
-                                            end;
-                                        _ ->
-                                            {ok, BinData} = pt_10:write(10000, [2, Accid,[]]),
-                                            lib_send:send_one(Socket, BinData),
-                                            login_parse_packet(Socket, Client),
-                                            login_lost(Socket, Client, 2, "login fail")
-                                    end;
+                                    [Imei, _,  _] = Data,
+                                    io:format("Imei = ~p~n",[Imei]),
+                                    PlayerInfo = list_to_tuple([player] ++ pp_account:handle(10000, [], Data)),
+                                    {ok, BinData} = pt_10:write(10000,PlayerInfo),
+                                    lib_send:send_one(Socket,BinData),
+                                    login_parse_packet(Socket,Client);
                                 %%创建角色
                                 {ok, create, Data} ->  
                                     case Client#client.login == 1 of

@@ -17,31 +17,22 @@ handle(Cmd, Player, Data) ->
 %%登陆验证
 %%TODO: 一帐号多角色
 handle_cmd(10000, [], Data) ->
-    io:format("------------handle_cmd 10000~n"),
-    case is_good_pass(Data) of
-        true -> 
-            Ret = true;
-        _ -> 
-            case config:get_strict_md5(server) of
-                1 -> Ret = false;
-                _ -> Ret = true
-            end
-    end,
-    case Ret of
+    io:format("handle_cmd Data = ~p~n",[Data]),
+    [Imei, Time, _] = Data,
+    Ret = db_agent_player:get_info_by_imei(Imei),
+    io:format("Ret = ~p~n",[Ret]),
+    if
+        Ret == [] ->
+            io:format("111111111111~n"),
+            Time = util:unixtime(),
+            io:format("222222222222~n"),
+            db_agent_player:create_role(Imei,"",0,"test",Time,Time),
+            io:format("333333333333~n"),
+            PlayerInfo = db_agent_player:get_info_by_imei(Imei),
+            io:format("444444444444~n");
         true ->
-            [Accid, _Accname, _Tstamp,  _Ts] = Data,
-            RoleList = lib_account:get_role_list(_Accname),
-            if RoleList =/= [] ->
-                   [L|_T] = RoleList;
-               true ->
-                   L = []
-            end,
-            R = true;
-        _ -> 
-            L = [],
-            R = false
-    end,
-    {R,L};
+            Ret
+    end;
 
 %% 创建角色
 handle_cmd(10003, Socket, [Accid, Accname, Sex, Name]) when is_integer(Accid) -> 

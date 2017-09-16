@@ -14,8 +14,8 @@
 
 %% 请求服务器列表
 read(60000, <<DomainId:16,Accid:32, Tstamp:32, Bin/binary>>) ->
-	{Accname, KeyBin} = pt:read_string(Bin),
-	{StrKey, _R} = pt:read_string(KeyBin),
+    {Accname, KeyBin} = pt:read_string(Bin),
+    {StrKey, _R} = pt:read_string(KeyBin),
     {ok, [DomainId,Accid,Tstamp, Accname, StrKey]};
 
 
@@ -37,14 +37,12 @@ write(60000, Ret) when is_integer(Ret) ->
     {ok, pt:pack(60000, <<Ret:8>>)};
 write(60000, [Ret, Content, List]) ->
     Rlen = length(List),
-    F = fun({ServId, Domain, ServName, ServIp, ServPort, State, Sex, Nick}) ->
-				{ServNameLen,ServNameBin} = tool:pack_string(ServName) ,
-				{NickLen,NickBin} = tool:pack_string(Nick) ,
-				{ServIpLen,ServIpBin} = tool:pack_string(ServIp) ,
-				<<ServId:16,Domain:16,ServNameLen:16,ServNameBin/binary,ServIpLen:16,ServIpBin/binary,ServPort:16,State:8, Sex:8, NickLen:16,NickBin/binary>> 
+    F = fun({ServId, Domain, _, ServIp, ServPort, State, _, _}) ->
+                {ServIpLen,ServIpBin} = tool:pack_string(ServIp) ,
+                <<ServId:16,Domain:16,ServIpLen:16,ServIpBin/binary,ServPort:16,State:8>> 
     end,
     RB = tool:to_binary([F(D) || D <- List]),
-	Content_Bin = pack_string(Content),
+    Content_Bin = pack_string(Content),
     {ok, pt:pack(60000, <<Ret:8, Rlen:16, RB/binary, Content_Bin/binary >>)};
 
 

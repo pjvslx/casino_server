@@ -112,7 +112,8 @@ bet({PlayerId,Line,Num,Coin},State) ->
 			RewardRecord == [] ->
 				{[],0+Sum};
 			true ->
-				{{LineType,PointList},RewardRecord#temp_slotmachine_reward.reward + Sum}
+				% {{LineType,PointList},RewardRecord#temp_slotmachine_reward.reward + Sum}
+				pass
 		end
 	end,
 

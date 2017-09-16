@@ -423,7 +423,7 @@ sync_player_to_gateway(Status) ->
 				  case net_adm:ping(Gateway) of
 					  pong ->
 						  ServPlayer = #server_player{uid = Status#player.id ,
-													  accid = Status#player.account_id ,
+													  accid = Status#player.id ,
 													  serv_id = ServNum ,
 													  domain = Domain ,
 													  acc_name = Status#player.account_name ,

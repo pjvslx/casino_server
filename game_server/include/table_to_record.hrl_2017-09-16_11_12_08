@@ -1,7 +1,7 @@
 %%%------------------------------------------------	
 %%% File    : table_to_record.erl	
 %%% Author  : smxx	
-%%% Created : 2017-09-16 11:12:08	
+%%% Created : 2014-05-08 13:44:06	
 %%% Description: 从mysql表生成的record	
 %%% Warning:  由程序自动生成，请不要随意修改！	
 %%%------------------------------------------------		
@@ -38,8 +38,6 @@
       acc_name = "",                          %% 账号名字	
       nick = "",                              %% 角色名字	
       sex = 0,                                %% 角色性别	
-      career = 0,                             %% 角色职业	
-      lv = 0,                                 %% 角色等级	
       icon = 0,                               %% 图标	
       last_login = 0                          %% 最后登录时间	
     }).	
@@ -48,30 +46,26 @@
 %% player ==> player 	
 -record(player, {	
       id,                                     %% 用户ID	
-      imei = "",                              %% imei号	
-      third_token = "",                       %% 三方平台token	
-      third_provider = 0,                     %% 三方平台类型	
-      bind_phone = "",                        %% 绑定手机号	
+      account_id = 0,                         %% 平台账号ID	
       account_name = "",                      %% 平台账号	
       nick = "",                              %% 玩家名	
       reg_time = 0,                           %% 注册时间	
       logout_time = 0,                        %% 上次离线时间	
       last_login_time = 0,                    %% 最后登陆时间	
       last_login_ip = "",                     %% 最后登陆IP	
-      status = 0,                             %% 玩家状态（0正常、1禁止、2战斗中、3死亡、4挂机、5打坐）	
       gender = 1,                             %% 性别 1男 2女	
-      career = 0,                             %% 职业(0:未定义，1: 神 2:魔 3:妖)	
       gold = 0,                               %% 元宝	
-      bgold = 0,                              %% 绑定元宝	
       coin = 0,                               %% 铜钱	
-      bcoin = 0,                              %% 绑定铜钱	
       vip = 0,                                %% VIP类型，0不是VIP，其他参考common.hrl	
       vip_expire_time = 0,                    %% VIP过期时间(秒)	
-      scene = 0,                              %% 场景ID	
-      level = 1,                              %% 等级	
-      exp = 0,                                %% 经验	
-      x = 0,                                  %% 分辨率 X	
-      y = 0,                                  %% 分辨率 Y	
       other = 0                               %% 其他信息	
     }).	
 	
+%% temp_slotmachine_reward	
+%% temp_slotmachine_reward ==> temp_slotmachine_reward 	
+-record(temp_slotmachine_reward, {	
+      id,                                     %% 老虎机奖励配置表	
+      fruit_type,                             %% 	
+      num,                                    %% 	
+      reward                                  %% 	
+    }).	

@@ -459,7 +459,7 @@ online_antirevel(AcctId) ->
 handle_offline_antirevel(Status, Now_time) ->
     case config:get_infant_ctrl(server) of
         1 -> %%防沉迷开启
-            Accid = Status#player.account_id,
+            Accid = Status#player.id,
             case db_agent:get_idcard_status(Accid) of
                 1 -> ok; %%成年人 
                 _ ->

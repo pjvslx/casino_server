@@ -7,16 +7,20 @@
 -module(pt_10).
 -export([read/2, write/2]).
 -include("common.hrl").
+-include("table_to_record.hrl").
 
 %%
 %%客户端 -> 服务端 ----------------------------
 %%
 
 %%登陆
-read(10000, <<_Sn:16, Accid:32, Tstamp:32, Bin/binary>>) ->
-    {Accname, Bin1} = pt:read_string(Bin),
-    {Ticket, _} = pt:read_string(Bin1),
-    {ok, login, [Accid, Accname,Tstamp,Ticket]};
+read(10000, Bin) ->
+    io:format("pt_10 read 10000~n"),
+    {Imei,Bin1} = pt:read_string(Bin),
+    <<Time:32,TicketBin/binary>> = Bin1,
+    {Ticket,_} = pt:read_string(TicketBin),
+    io:format("Imei = ~p Time = ~p Ticket = ~p~n",[Imei,Time,Ticket]),
+    {ok,login,[Imei,Time,Ticket]};
 
 %%退出
 read(10001, _) ->
@@ -58,28 +62,38 @@ write(9999, [Host, Port]) ->
     Data = <<HL:16, Host/binary, Port:16>>,
     {ok, pt:pack(9999, Data)};
 
-%%登陆返回
-write(10000, [Code, NewAcId, L]) ->
-    case L of
-        [] ->
-            io:format("write(10000) L = <<>>"),
-            LB = <<>>;            
-        _ ->    
-            [Uid, Status, Lv, Career,Sex, Name, Scene, X, Y, DramaList] = L,
-            Fun = fun(DramaId) ->
-                <<DramaId:16>>
-            end,
-            NameBin = pt:pack_string(Name),  
-            NewDramaList = util:bitstring_to_term(DramaList),
-            List_len = length(NewDramaList),
-            Test = lists:map(Fun,NewDramaList),
-            List_ABin = pt:any_to_binary(Test),
-            List_ABinData = <<List_len:16,List_ABin/binary>>,
-            io:format("Scene = ~p~n" ,[Scene]),
-            LB = <<Uid:64, Status:8, Career:8, Sex:8, Lv:8, NameBin/binary, Scene:8 , X:8 , Y:8 , List_ABinData/binary>>
-    end,
-    Data = <<Code:8, NewAcId:32, LB/binary>>,
-    {ok, pt:pack(10000, Data)};
+write(10000,PlayerInfo)->
+    io:format("write 10000 PlayerInfo = ~p uid = ~p~n",[PlayerInfo,PlayerInfo#player.id]),
+    NameBin = pt:pack_string(PlayerInfo#player.nick),
+    Id = PlayerInfo#player.id,
+    Gender = PlayerInfo#player.gender,
+    Coin = PlayerInfo#player.coin,
+    Gold = PlayerInfo#player.gold,
+    Data = <<Id:64,Gender:8,Coin:64,Gold:32,NameBin/binary>>,
+    {ok,pt:pack(10000,Data)};
+
+% %%登陆返回
+% write(10000, [Code, NewAcId, L]) ->
+%     case L of
+%         [] ->
+%             io:format("write(10000) L = <<>>"),
+%             LB = <<>>;            
+%         _ ->    
+%             [Uid, Status, Lv, Career,Sex, Name, Scene, X, Y, DramaList] = L,
+%             Fun = fun(DramaId) ->
+%                 <<DramaId:16>>
+%             end,
+%             NameBin = pt:pack_string(Name),  
+%             NewDramaList = util:bitstring_to_term(DramaList),
+%             List_len = length(NewDramaList),
+%             Test = lists:map(Fun,NewDramaList),
+%             List_ABin = pt:any_to_binary(Test),
+%             List_ABinData = <<List_len:16,List_ABin/binary>>,
+%             io:format("Scene = ~p~n" ,[Scene]),
+%             LB = <<Uid:64, Status:8, Career:8, Sex:8, Lv:8, NameBin/binary, Scene:8 , X:8 , Y:8 , List_ABinData/binary>>
+%     end,
+%     Data = <<Code:8, NewAcId:32, LB/binary>>,
+%     {ok, pt:pack(10000, Data)};
 
 %%退出登录
 write(10001, _) ->
