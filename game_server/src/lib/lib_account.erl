@@ -16,12 +16,7 @@ check_account(PlayerId, Accid) ->
         [] ->
             false;
         AccountId ->
-            case AccountId =:= Accid of
-                true ->
-                    true;
-                false ->
-                    false
-            end
+            true
     end.
 
 %% 取得IP封禁状态

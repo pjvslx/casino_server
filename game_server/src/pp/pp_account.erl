@@ -17,10 +17,8 @@ handle(Cmd, Player, Data) ->
 %%登陆验证
 %%TODO: 一帐号多角色
 handle_cmd(10000, [], Data) ->
-    io:format("handle_cmd Data = ~p~n",[Data]),
     [Imei, Time, _] = Data,
     Ret = db_agent_player:get_info_by_imei(Imei),
-    io:format("Ret = ~p~n",[Ret]),
     if
         Ret == [] ->
             io:format("111111111111~n"),

@@ -45,6 +45,7 @@ login(start, [PlayerId, AccountId], Socket) ->
 	io:format("=========mod_login login~n"),
 	case lib_account:check_account(PlayerId, AccountId) of
 		false ->
+			io:format("11111111111~n"),
 			{error, fail1};
 		true ->
 			case check_duplicated_login(PlayerId, AccountId) of
@@ -55,6 +56,7 @@ login(start, [PlayerId, AccountId], Socket) ->
 				_-> 
 					case mod_player:start(PlayerId, AccountId, Socket) of 
 						{ok, Pid} ->
+							io:format("aaaaaaaaa~n"),
 							{ok, Pid};
 						_Err ->  
 							io:format("login error ~p ~n",[_Err]),

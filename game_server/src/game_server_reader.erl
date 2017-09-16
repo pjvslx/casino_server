@@ -59,6 +59,7 @@ init() ->
 %%Socket：socket id
 %%Client: client记录
 login_parse_packet(Socket, Client) ->
+    io:format("===================login_parse_packet~n"),
     Ref = async_recv(Socket, ?HEADER_LENGTH, ?HEART_TIMEOUT),
     receive
         %%登陆处理
@@ -79,9 +80,19 @@ login_parse_packet(Socket, Client) ->
                                     [Imei, _,  _] = Data,
                                     io:format("Imei = ~p~n",[Imei]),
                                     PlayerInfo = list_to_tuple([player] ++ pp_account:handle(10000, [], Data)),
-                                    {ok, BinData} = pt_10:write(10000,PlayerInfo),
-                                    lib_send:send_one(Socket,BinData),
-                                    login_parse_packet(Socket,Client);
+                                    case mod_login:login(start, [PlayerInfo#player.id, Client#client.account_id], Socket) of
+                                        {ok, Pid} ->
+                                            io:format("mod_login:login ok ~n"),
+                                            {ok, BinData} = pt_10:write(10000,[success,PlayerInfo]),
+                                            lib_send:send_one(Socket,BinData),
+                                            do_parse_packet(Socket, Client#client{player_pid = Pid, player_id = PlayerInfo#player.id});    
+                                        {error, _Reason} ->
+                                            io:format("mod_login:login failed ~n"),
+                                            {ok,BinData} = pt_10:write(10000,failed),
+                                            lib_send:send_one(Socket,BinData),
+                                            login_parse_packet(Socket, Client)
+                                    end;
+
                                 %%创建角色
                                 {ok, create, Data} ->  
                                     case Client#client.login == 1 of
@@ -176,6 +187,7 @@ login_parse_packet(Socket, Client) ->
 %%Socket：socket id
 %%Client: client记录
 do_parse_packet(Socket, Client) ->
+    io:format("===================do_parse_packet~n"),
     Ref = async_recv(Socket, ?HEADER_LENGTH, ?HEART_TIMEOUT),
     receive
         {inet_async, Socket, Ref, {ok, <<Len:16, Cmd:16>>}} ->
@@ -198,6 +210,7 @@ do_parse_packet(Socket, Client) ->
                     case routing(Client, Cmd, BinData) of
                         %%这里是处理游戏逻辑
                         {ok, Data} ->  
+                            io:format("dazidingguo11111111111111"),
                             case catch gen:call(Client#client.player_pid, '$gen_call', {'SOCKET_EVENT', Cmd, Data}, 10*1000) of
                                 {ok, _Res} ->
                                     do_parse_packet(Socket, Client);
@@ -206,6 +219,7 @@ do_parse_packet(Socket, Client) ->
                                     do_lost(Client, Cmd, Reason, 1)
                             end;
                         {ok, real_play, [Uid]} ->        %% 创建角色后, 真正进入游戏, 写记录
+                            io:format("dazidingguo222222222222222"),
                             lib_account:real_play(Uid),
                             do_parse_packet(Socket, Client);
                         Other2 ->

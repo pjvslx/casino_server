@@ -55,7 +55,7 @@ insert_dialog_by_id(PlayerId,DialogId)->
 
 %% 通过IMEI取得账号ID
 get_accountid_by_imei(Imei)->
-  ?DB_MODULE:select_one(player,"account_id",[{imei,Imei}],[],[1]).
+  ?DB_MODULE:select_one(player,"id",[{imei,Imei}],[],[1]).
 
 %% 通过IMEI取得账号信息
 get_info_by_imei(Imei)->
@@ -63,7 +63,7 @@ get_info_by_imei(Imei)->
 
 %% 通过角色ID取得帐号ID
 get_accountid_by_id(PlayerId) ->
-    ?DB_MODULE:select_one(player, "account_id", [{id, PlayerId}], [], [1]).
+    ?DB_MODULE:select_one(player, "id", [{id, PlayerId}], [], [1]).
 
 %% 通过帐号ID取得角色ID
 get_playerid_by_accountid(AccId) ->

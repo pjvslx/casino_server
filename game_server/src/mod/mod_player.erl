@@ -72,6 +72,7 @@ init([PlayerId, _AccountId, Socket]) ->
 -endif.
 
 routing2(Cmd, Status, Bin) -> 
+    io:format("routing2 Cmd = ~p ~n",[Cmd]),
 	%case Cmd >= 15000 of
 	%	true ->	?TRACE("Cmd:~p Bin:~p ~n", [Cmd, Bin]);
 	%	false -> skip
@@ -83,6 +84,7 @@ routing2(Cmd, Status, Bin) ->
         "10" -> skip;
         "12" -> pp_room:handle(Cmd,Status,Bin);
         "13" -> pp_slotmachine:handle(Cmd,Status,Bin);
+        "14" -> pp_treasure:handle(Cmd,Status,Bin);
         _ -> %%错误处理
             ?ERROR_MSG("Routing Error [~w].", [Cmd]),
             {error, "Routing failure"}

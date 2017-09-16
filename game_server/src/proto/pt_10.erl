@@ -62,16 +62,19 @@ write(9999, [Host, Port]) ->
     Data = <<HL:16, Host/binary, Port:16>>,
     {ok, pt:pack(9999, Data)};
 
-write(10000,PlayerInfo)->
-    io:format("write 10000 PlayerInfo = ~p uid = ~p~n",[PlayerInfo,PlayerInfo#player.id]),
+write(10000,[success,PlayerInfo])->
     NameBin = pt:pack_string(PlayerInfo#player.nick),
     Id = PlayerInfo#player.id,
     Gender = PlayerInfo#player.gender,
     Coin = PlayerInfo#player.coin,
     Gold = PlayerInfo#player.gold,
-    Data = <<Id:64,Gender:8,Coin:64,Gold:32,NameBin/binary>>,
+    ErrorCode = 0,
+    Data = <<ErrorCode:8,Id:64,Gender:8,Coin:64,Gold:32,NameBin/binary>>,
     {ok,pt:pack(10000,Data)};
-
+write(10000,failed)->
+    ErrorCode = 1,
+    Data = <<ErrorCode:8>>,
+    {ok,pt:pack(10000,Data)};
 % %%登陆返回
 % write(10000, [Code, NewAcId, L]) ->
 %     case L of
