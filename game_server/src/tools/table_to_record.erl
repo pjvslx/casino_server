@@ -25,7 +25,7 @@
 		 {config_server, config_server},
 		 {server_player, server_player},
          {player, player},
-         {temp_slotmachine_reward,temp_slotmachine_reward}
+         {treasure_mission_config,treasure_mission_config}
     ]).
 
 

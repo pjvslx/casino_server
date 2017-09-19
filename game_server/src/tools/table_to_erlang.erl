@@ -20,7 +20,7 @@
 
 -define(TABLES_TPLS, [
          %数据库表名   Record名  %erlang文件名  %参数
-     {temp_slotmachine_reward,temp_slotmachine_reward,tpl_slotmachine_reward,[2,3]}
+     {treasure_mission_config,treasure_mission_config,tpl_treasure_mission,[1,2]}
     ]).
 
 %%用于生成返回值为列表的函数

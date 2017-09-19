@@ -82,8 +82,6 @@ routing2(Cmd, Status, Bin) ->
     case [H1, H2] of
         %%游戏基础功能处理  
         "10" -> skip;
-        "12" -> pp_room:handle(Cmd,Status,Bin);
-        "13" -> pp_slotmachine:handle(Cmd,Status,Bin);
         "14" -> pp_treasure:handle(Cmd,Status,Bin);
         _ -> %%错误处理
             ?ERROR_MSG("Routing Error [~w].", [Cmd]),
@@ -257,6 +255,7 @@ update_last_login(Player, Scoket) ->
 %%         Socket   -- 
 %%----------------------------------------------
 load_player_info(PlayerId,Socket) ->
+    io:format("load_player_info PlayerId = ~p~n",[PlayerId]),
     NowTime = util:unixtime() ,
     LastLoginTime = NowTime + 5 ,
     put(player_id,PlayerId),
@@ -270,7 +269,18 @@ load_player_info(PlayerId,Socket) ->
                                     {ok, PidSend} = mod_pid_send:start(Socket, N),
                                     PidSend
                             end, lists:seq(1, ?SEND_MSG)),
-    Other = #player_other{socket = Socket, pid_send = PidSendList, current_game = 0},
+
+    case db_agent_treasure:get_treasure(PlayerId) of
+        [] ->
+            %%为空 说明没有记录
+            TreasureLevel = 1,
+            TreasureLeftBrick = 15,
+            TreasureScore = 0,
+            db_agent_treasure:create_treasure_table([uid,level,left_brick,score],[PlayerId,TreasureLevel,TreasureLeftBrick,TreasureScore]);
+        Ret ->
+            [TreasureLevel,TreasureLeftBrick,TreasureScore] = Ret
+    end,
+    Other = #player_other{socket = Socket, pid_send = PidSendList, current_game = 0,treasure_level = TreasureLevel, treasure_left_brick = TreasureLeftBrick, treasure_score = TreasureScore},
     NewPlayer = Player#player{other = Other},
     NewPlayer.
 
@@ -320,6 +330,7 @@ writeback_donttalk(Id, Now) ->
 save_online(PlayerStatus) ->   
     %% 更新本地ets里的用户信息
     save_player_table(PlayerStatus),
+    save_treasure_table(PlayerStatus),
     ok.
 
 %% 差异同步更新ETS中的角色数据
@@ -387,6 +398,20 @@ save_player_table(Status) ->
                  db_agent_player:save_player_table(Status#player.id, FieldList, ValueList),
     Status.
 
+save_treasure_table(Status) ->
+    FieldList = [
+                    level,
+                    left_brick,
+                    score
+                ],
+
+    PlayerOther = Status#player.other,
+    ValueList = [
+                    PlayerOther#player_other.treasure_level,
+                    PlayerOther#player_other.treasure_left_brick,
+                    PlayerOther#player_other.treasure_score
+                ],
+    db_agent_treasure:save_treasure_table(Status#player.id,FieldList,ValueList).
  
 %%下线删除定时器
 logout_cancel_timer() ->
