@@ -1878,5 +1878,24 @@ CREATE TABLE `world_level` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+--  Table structure for `treasure_stone_config`
+-- ----------------------------
+CREATE TABLE `treasure_stone_config` (
+  `stone_id` tinyint(1) NOT NULL DEFAULT '0' COMMENT '石头ID',
+  `description` varchar(50) NOT NULL COMMENT '石头名字',
+  PRIMARY KEY (`stone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `treasure_mission_config`
+-- ----------------------------
+CREATE TABLE `treasure_mission_config` (
+  `stone_id` tinyint(1) NOT NULL DEFAULT '0' COMMENT '石头ID',
+  `line_num` tinyint(1) NOT NULL DEFAULT '10' COMMENT '相连数',
+  `odds_factor` float NOT NULL DEFAULT '0' COMMENT '赔率',
+  `mission` tinyint(1) NOT NULL DEFAULT '1' COMMENT '关卡等级',
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 --  Records 
 -- ----------------------------
