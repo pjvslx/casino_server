@@ -20,12 +20,13 @@
 
 -define(TABLES_TPLS, [
          %数据库表名   Record名  %erlang文件名  %参数
-     {treasure_mission_config,treasure_mission_config,tpl_treasure_mission,[1,2]}
+      {treasure_mission_config,treasure_mission_config,tpl_treasure_mission,[1]}
     ]).
 
 %%用于生成返回值为列表的函数
 -define(TABLES_LIST, [
          %数据库表名   %erlang文件名  %参数  %Id名
+      {treasure_mission_config,tpl_treasure_mission,[cid],[stone_id,line_num,odds_factor,is_crit]}
     ]).
 %%
 %% Exported Functions

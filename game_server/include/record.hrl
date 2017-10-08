@@ -108,7 +108,10 @@
                        socket = undefined,           % 当前用户的socket
                        pid = undefined,              % 用户进程Pid
                        pid_send = [],                % 消息发送进程Pid(可多个)
-                       current_game = 0
+                       current_game = 0,
+                       treasure_level = 1,           %夺宝关卡
+                       treasure_left_brick = 15,     %剩余金砖
+                       treasure_score = 0            %夺宝的分数
                       }).
 
 %%任务进度（用于在杀怪，采集等动作时保存对应的未完成任务与已完成任务）

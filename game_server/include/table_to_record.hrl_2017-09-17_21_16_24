@@ -1,7 +1,7 @@
 %%%------------------------------------------------	
 %%% File    : table_to_record.erl	
 %%% Author  : smxx	
-%%% Created : 2017-09-17 21:16:24	
+%%% Created : 2017-09-16 11:12:08	
 %%% Description: 从mysql表生成的record	
 %%% Warning:  由程序自动生成，请不要随意修改！	
 %%%------------------------------------------------		
@@ -75,12 +75,3 @@
       other = 0                               %% 其他信息	
     }).	
 	
-%% treasure_mission_config	
-%% treasure_mission_config ==> treasure_mission_config 	
--record(treasure_mission_config, {	
-      stone_id = 0,                           %% 石头ID	
-      line_num = 10,                          %% 相连数	
-      odds_factor = 0,                        %% 赔率	
-      mission = 1,                            %% 关卡等级	
-      is_crit = 0                             %% 	
-    }).	

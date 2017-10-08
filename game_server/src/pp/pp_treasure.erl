@@ -15,5 +15,14 @@ handle_cmd(14001, Player, _) ->
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14001),
 	{ok,Player};
 
+handle_cmd(14006, Player, _) ->
+	Level1 = 1,
+	tpl_treasure_mission:get_by_mission(Level1),
+	Level2 = 2,
+	tpl_treasure_mission:get_by_mission(Level2),
+	Level3 = 3,
+	tpl_treasure_mission:get_by_mission(Level3),
+	pass;
+
 handle_cmd(_Cmd, _Socket, _Data) ->
     {error, "pp_cmd handle_account no match"}.
