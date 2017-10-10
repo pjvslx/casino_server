@@ -21,11 +21,41 @@ bet(Level) ->
 			BoundLimit = 6
 	end,
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
-	io:format("RandomList1 = ~p~n",[RandomList1]),
-	[E|NewRandomList] = RandomList1,
-	RetList = make_clear_rule(E,1,BoundLimit,RandomList1),
-	io:format("RetList = ~p~n",[RetList]),
-	pass.
+	Ret = make_all_clear(BoundLimit,RandomList1),
+	Ret.
+
+make_all_clear(BoundLimit,RandomList1)->
+	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
+	Ret = lists:foldl(
+		fun(Cell,RetList) -> 
+			List = make_clear_rule(Cell,Cell#cell.index,BoundLimit,RandomList1),
+			if 
+				length(RetList) == 0 ->
+					if 
+						length(List) >= 3 ->
+							[List];
+						true ->
+							[]
+					end;
+				true ->
+					if 
+						length(List) >= 3 ->
+							Element = lists:nth(1,RetList),
+							if 
+								is_list(Element) == true ->
+									RetList ++ [List];
+								true ->
+									[RetList] ++ [List]
+							end;
+						true ->
+							[]
+					end
+			end
+		end,
+			[],
+			RandomList1
+			),
+	Ret.
 
 random_many_num(Num,List,LowBound,HighBound,BoundLimit) ->
 	if 
