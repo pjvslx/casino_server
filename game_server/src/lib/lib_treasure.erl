@@ -22,9 +22,27 @@ bet(Level) ->
 			BoundLimit = 6
 	end,
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
-	io:format("RandomList1 = ~p~n",[RandomList1]),
 	Ret = make_all_clear(BoundLimit,RandomList1),
-	Ret.
+	if 
+		length(Ret) > 0 ->
+			[RetList] = Ret;
+		true ->
+			RetList = Ret
+	end,
+
+	FilterRet = lists:filter(
+		fun(E) ->
+			%%删除掉存在于Ret中的元素
+			not lists:any(
+				fun(E2)->
+					E2#cell.index == E#cell.index
+				end,
+				RetList
+				)
+		end,
+		RandomList1
+		),
+	ok.
 
 make_all_clear(BoundLimit,RandomList1)->
 	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
