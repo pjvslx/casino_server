@@ -22,27 +22,75 @@ bet(Level) ->
 			BoundLimit = 6
 	end,
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
-	Ret = make_all_clear(BoundLimit,RandomList1),
+	% io:format("RandomList1 = ~p~n",[RandomList1]),
+	% Ret = make_all_clear(BoundLimit,RandomList1),
+	% io:format("Ret = ~p~n",[Ret]),
+	% if 
+	% 	length(Ret) > 0 ->
+	% 		[RetList] = Ret;
+	% 	true ->
+	% 		RetList = Ret
+	% end,
+
+	% FilterRet = lists:filter(
+	% 	fun(E) ->
+	% 		%%删除掉存在于Ret中的元素
+	% 		not lists:any(
+	% 			fun(E2)->
+	% 				E2#cell.index == E#cell.index
+	% 			end,
+	% 			RetList
+	% 			)
+	% 	end,
+	% 	RandomList1
+	% 	),
+	% GravityCellList = gravity(BoundLimit,FilterRet),
+	% io:format("GravityCellList = ~p~n",[GravityCellList]),
+	OutputList = deal_one_round(BoundLimit,RandomList1,[]),
+	OutputList.
+
+deal_one_round(BoundLimit,List,OutputList) ->
+	Ret = make_all_clear(BoundLimit,List),
 	if 
 		length(Ret) > 0 ->
-			[RetList] = Ret;
-		true ->
-			RetList = Ret
-	end,
-
-	FilterRet = lists:filter(
-		fun(E) ->
-			%%删除掉存在于Ret中的元素
-			not lists:any(
-				fun(E2)->
-					E2#cell.index == E#cell.index
+			io:format("Ret = ~p~n",[Ret]),
+			[RetList] = Ret,
+			%%过滤出未消除的
+			FilterRet = lists:filter(
+			fun(E) ->
+				%%删除掉存在于Ret中的元素
+				not lists:any(
+					fun(E2)->
+						E2#cell.index == E#cell.index
+					end,
+					RetList
+					)
+			end,
+			List
+			),
+			%%将FilterRet按照重力原理重新组装
+			GravityCellList = gravity(BoundLimit,FilterRet),
+			%%generate_cell(CellList,LowBound,HighBound,BoundLimit)->
+			io:format("GravityCellList ~p~n",[GravityCellList]),
+			FlattenCellList = lists:flatmap(
+				fun(ListCellListList)->
+					[ListCellList] = ListCellListList,
+					ListCellList
+				end, 
+				GravityCellList
+				),
+			NewCellList = generate_cell(FlattenCellList,BoundLimit),
+			MergeCellList = lists:merge(FlattenCellList,NewCellList),
+			SortMergeCellList = lists:sort(
+				fun(Cell1,Cell2)->
+					Cell1#cell.index < Cell2#cell.index
 				end,
-				RetList
-				)
-		end,
-		RandomList1
-		),
-	ok.
+				MergeCellList
+				),
+			deal_one_round(BoundLimit,SortMergeCellList,OutputList);
+		true ->
+			OutputList
+	end.
 
 make_all_clear(BoundLimit,RandomList1)->
 	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
@@ -76,6 +124,63 @@ make_all_clear(BoundLimit,RandomList1)->
 			RandomList1
 			),
 	Ret.
+
+%%
+% X X O O X		  	X X X X X
+% O O X X O         X X X X X
+% X O O X X    ->   X X O X O
+% X X X O O         O O O O O
+% O X O X O         O O O O O
+
+% 统计出每一列缺多少个门牙 
+% lib_treasure:gravity_test(5,List).
+gravity_test(BoundLimit,List) ->
+	BoundList = lists:seq(1,BoundLimit),
+	lists:map(
+		fun(Col)->
+			lists:filter(
+				fun(E)->
+					{R,C} = index_to_r_c(E,BoundLimit),
+					C == Col
+				end,
+				List
+				)
+		end,
+		BoundList
+		).
+
+gravity(BoundLimit,CellList)->
+	BoundList = lists:seq(1,BoundLimit),
+	%% 按照Col进行分类
+	ClassListByCol = lists:map(
+		fun(Col)->
+			lists:filter(
+				fun(Cell)->
+					Col == Cell#cell.col
+				end,
+				CellList
+				)
+		end,
+		BoundList
+		),
+
+	lists:map(
+		fun(Col)->
+			ColCellList = lists:nth(Col,ClassListByCol),
+			Length = length(ColCellList),
+			LengthList = lists:seq(1,Length),
+			lists:map(
+				fun(Row)->
+					Cell = lists:nth(Row,ColCellList),
+					NewIndex = r_c_to_index(Row,Col,BoundLimit),
+					NewCell = #cell{row = Row, col = Col, value = Cell#cell.value, index = NewIndex}
+				end,
+				LengthList
+				)
+		end,
+		BoundList
+		).
+
 
 
 rand_fill_list(Level,List,LowBound,HighBound,BoundLimit) ->
@@ -141,6 +246,41 @@ rand_fill_list_test(Level,List,LowBound,HighBound,BoundLimit) ->
 		end,
 		[],
 		AllIndexList
+		).
+
+generate_cell(CellList,BoundLimit)->
+	if 
+		BoundLimit == 4 ->
+			LowBound = 1,
+			HighBound = 5;
+		BoundLimit == 5 ->
+			LowBound = 6,
+			HighBound = 10;
+		true ->
+			LowBound = 11,
+			HighBound = 15
+	end,
+	BoundList = lists:seq(1,BoundLimit),
+	lists:foldl(
+		fun(Index,RetList)->
+			Exist = lists:any(
+				fun(Cell)->
+					Cell#cell.index == Index
+				end,
+				CellList
+				),
+			if
+				Exist == true ->
+					RetList;
+				true ->
+					RandomNum = util:rand(LowBound,HighBound),
+					{Row,Col} = index_to_r_c(Index,BoundLimit),
+					NewCell = #cell{row = Row, col = Col, value = RandomNum, index = Index},
+					RetList ++ [NewCell]
+			end
+		end,
+		[],
+		BoundList
 		).
 
 random_many_num(Num,List,LowBound,HighBound,BoundLimit) ->
