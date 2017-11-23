@@ -32,6 +32,31 @@ write(14001, [Level,LeftBrick,TotalCoins,GameCoins,PoolCoins,MinBet,MaxBet,LineL
 	ListBin = list_to_binary(lists:map(F,LineList)),
 	{ok, pt:pack(14001,<<Level:8,LeftBrick:8,TotalCoins:64,GameCoins:64,PoolCoins:64,MinBet:32,MaxBet:32,Length:16,ListBin/binary>>)};
 
+write(14002,Data) ->
+	Length = length(Data),
+	F = fun(RoundUnit)->
+		{AllInfoList,ClearInfoList} = RoundUnit,
+		AllLength = length(AllInfoList),
+		ClearLength = length(ClearInfoList),
+		AllListBin = list_to_binary(lists:map(
+			fun(AllCellUnit)->
+				{Row,Col,Value} = AllCellUnit,
+				<<Row:8,Col:8,Value:8>>
+			end,
+			AllInfoList
+			)),
+		ClearListBin = list_to_binary(lists:map(
+			fun(ClearCellUnit)->
+				{Row,Col,Value} = ClearCellUnit,
+				<<Row:8,Col:8,Value:8>>
+			end,
+			ClearInfoList
+			)),
+		<<AllLength:16,AllListBin/binary,ClearLength:16,ClearListBin/binary>>
+	end,
+	ListBin = list_to_binary(lists:map(F,Data)),
+	{ok, pt:pack(14002,<<Length:16,ListBin/binary>>)};
+
 write(Cmd, _R) ->
 ?INFO_MSG("~s_errorcmd_[~p] ",[misc:time_format(game_timer:now()), Cmd]),
     {ok, pt:pack(0, <<>>)}.

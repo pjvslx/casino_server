@@ -22,39 +22,26 @@ bet(Level) ->
 			BoundLimit = 6
 	end,
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
-	% io:format("RandomList1 = ~p~n",[RandomList1]),
-	% Ret = make_all_clear(BoundLimit,RandomList1),
-	% io:format("Ret = ~p~n",[Ret]),
-	% if 
-	% 	length(Ret) > 0 ->
-	% 		[RetList] = Ret;
-	% 	true ->
-	% 		RetList = Ret
-	% end,
-
-	% FilterRet = lists:filter(
-	% 	fun(E) ->
-	% 		%%删除掉存在于Ret中的元素
-	% 		not lists:any(
-	% 			fun(E2)->
-	% 				E2#cell.index == E#cell.index
-	% 			end,
-	% 			RetList
-	% 			)
-	% 	end,
-	% 	RandomList1
-	% 	),
-	% GravityCellList = gravity(BoundLimit,FilterRet),
-	% io:format("GravityCellList = ~p~n",[GravityCellList]),
 	OutputList = deal_one_round(BoundLimit,RandomList1,[]),
 	OutputList.
 
 deal_one_round(BoundLimit,List,OutputList) ->
 	Ret = make_all_clear(BoundLimit,List),
+	io:format("Ret = ~p~n",[Ret]),
+	AllInfo = lists:flatmap(
+		fun(Cell)->
+			[{Cell#cell.row,Cell#cell.col,Cell#cell.value}]
+		end,
+		List),
 	if 
 		length(Ret) > 0 ->
-			io:format("Ret = ~p~n",[Ret]),
-			[RetList] = Ret,
+			RetList = lists:foldl(
+				fun(RetCell,Sum)->
+					RetCell ++ Sum
+				end,
+				[],
+				Ret
+			),
 			%%过滤出未消除的
 			FilterRet = lists:filter(
 			fun(E) ->
@@ -68,17 +55,23 @@ deal_one_round(BoundLimit,List,OutputList) ->
 			end,
 			List
 			),
+
+			RetInfo = lists:flatmap(
+				fun(RetCell)->
+					[{RetCell#cell.row,RetCell#cell.col,RetCell#cell.value}]
+				end,
+				RetList
+			),
 			%%将FilterRet按照重力原理重新组装
 			GravityCellList = gravity(BoundLimit,FilterRet),
-			%%generate_cell(CellList,LowBound,HighBound,BoundLimit)->
-			io:format("GravityCellList ~p~n",[GravityCellList]),
-			FlattenCellList = lists:flatmap(
-				fun(ListCellListList)->
-					[ListCellList] = ListCellListList,
-					ListCellList
+			FlattenCellList = lists:foldl(
+				fun(ColCellList,Sum)->
+					Sum ++ ColCellList
 				end, 
+				[],
 				GravityCellList
 				),
+
 			NewCellList = generate_cell(FlattenCellList,BoundLimit),
 			MergeCellList = lists:merge(FlattenCellList,NewCellList),
 			SortMergeCellList = lists:sort(
@@ -87,12 +80,18 @@ deal_one_round(BoundLimit,List,OutputList) ->
 				end,
 				MergeCellList
 				),
-			deal_one_round(BoundLimit,SortMergeCellList,OutputList);
+			AllResultInfo = [{AllInfo,RetInfo}],
+			NewOutputList = OutputList ++ AllResultInfo,
+			deal_one_round(BoundLimit,SortMergeCellList,NewOutputList);
 		true ->
-			OutputList
+			AllResultInfo = [{AllInfo,[]}],
+			NewOutputList = OutputList ++ AllResultInfo,
+			NewOutputList
 	end.
 
 make_all_clear(BoundLimit,RandomList1)->
+	io:format("make_all_clear ~n"),
+	io:format("RandomList1 = ~p~n",[RandomList1]),
 	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
 	Ret = lists:foldl(
 		fun(Cell,RetList) -> 
@@ -116,7 +115,7 @@ make_all_clear(BoundLimit,RandomList1)->
 									[RetList] ++ [List]
 							end;
 						true ->
-							[]
+							RetList
 					end
 			end
 		end,
@@ -260,7 +259,7 @@ generate_cell(CellList,BoundLimit)->
 			LowBound = 11,
 			HighBound = 15
 	end,
-	BoundList = lists:seq(1,BoundLimit),
+	BoundList = lists:seq(1,BoundLimit * BoundLimit),
 	lists:foldl(
 		fun(Index,RetList)->
 			Exist = lists:any(

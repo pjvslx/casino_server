@@ -15,6 +15,33 @@ handle_cmd(14001, Player, _) ->
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14001),
 	{ok,Player};
 
+% [{[{1,1,2},
+%    {1,2,4},
+%    {1,3,5},
+%    {1,4,1},
+%    {2,1,5},
+%    {2,2,1},
+%    {2,3,1},
+%    {2,4,5},
+%    {3,1,2},
+%    {3,2,1},
+%    {3,3,4},
+%    {3,4,1},
+%    {4,1,2},
+%    {4,2,5},
+%    {4,3,5},
+%    {4,4,5}],
+%   [{4,4},{4,3},{4,2}]}]
+
+handle_cmd(14002, Player, [LineNum,BetNum]) ->
+	PlayerOther = Player#player.other,
+	DataList = lib_treasure:bet(1),
+	io:format("DataList = ~p~n",[DataList]),
+	{ok,Data14002} = pt_14:write(14002,DataList),
+	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14002),
+	{ok,Player};
+
+
 handle_cmd(14006, Player, _) ->
 	Level1 = 1,
 	tpl_treasure_mission:get_by_mission(Level1),

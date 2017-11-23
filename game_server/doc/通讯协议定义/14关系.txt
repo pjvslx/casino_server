@@ -34,15 +34,15 @@ s >> c:
 	(
 		array
 		(
-			int:8 stone_id		石头ID
 			int:8 row			第几行
 			int:8 col			第几列
-		)					generate_stone_array 生成的石头
+			int:8 stone_id		石头ID
+		)					all_stone_array 总的石头
 		array
 		(
-			int:8 stone_id		石头ID
 			int:8 row			第几行
 			int:8 col			第几列
+			int:8 stone_id		石头ID
 		)					dismiss_stone_array 消除的石头
 	)						中奖过程展示
 
