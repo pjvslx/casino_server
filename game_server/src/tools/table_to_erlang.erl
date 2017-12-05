@@ -19,14 +19,14 @@
 -define(BEAM_PATH, "./").  
 
 -define(TABLES_TPLS, [
-         %数据库表名   Record名  %erlang文件名  %参数
-      {treasure_mission_config,treasure_mission_config,tpl_treasure_mission,[1]}
+         %数据库表名   Record名  %erlang文件名  %参数  %%用于生成get()
+      {treasure_mission_config,treasure_mission_config,tpl_treasure_mission,[6]}
     ]).
 
 %%用于生成返回值为列表的函数
 -define(TABLES_LIST, [
-         %数据库表名   %erlang文件名  %参数  %Id名
-      {treasure_mission_config,tpl_treasure_mission,[cid],[stone_id,line_num,odds_factor,is_crit]}
+         %数据库表名   %erlang文件名  %参数  %Id名 %%第三个字段集关联第四个字段
+      {treasure_mission_config,tpl_treasure_mission,[mission],[cid]}
     ]).
 %%
 %% Exported Functions

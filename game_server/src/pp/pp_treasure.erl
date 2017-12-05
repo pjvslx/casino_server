@@ -47,8 +47,8 @@ handle_cmd(14002, Player, [LineNum,BetNum]) ->
 		CanBet == true ->
 			DataList = lib_treasure:bet(1),
 			NewPlayer = lib_player:cost_coin(Player,CostCoin),
-			{ok,Data14002} = pt_14:write(14002,DataList);
-			{ok,Data12001} = pt_12:write(12001,[1,-CostCoin,NewPlayer#player.coin,1])
+			{ok,Data14002} = pt_14:write(14002,DataList),
+			{ok,Data12001} = pt_12:write(12001,[1,-CostCoin,NewPlayer#player.coin,1]);
 		true ->
 			NewPlayer = Player,
 			{ok,Data14002} = pt_14:write(14002,[])
