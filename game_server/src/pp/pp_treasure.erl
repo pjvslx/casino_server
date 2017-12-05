@@ -35,11 +35,26 @@ handle_cmd(14001, Player, _) ->
 
 handle_cmd(14002, Player, [LineNum,BetNum]) ->
 	PlayerOther = Player#player.other,
-	DataList = lib_treasure:bet(1),
-	io:format("DataList = ~p~n",[DataList]),
-	{ok,Data14002} = pt_14:write(14002,DataList),
+	CostCoin = LineNum * BetNum,
+	if 
+		Player#player.coin >= CostCoin ->
+			CanBet = true;
+		true ->
+			CanBet = false
+	end,
+
+	if 
+		CanBet == true ->
+			DataList = lib_treasure:bet(1),
+			NewPlayer = lib_player:cost_coin(Player,CostCoin),
+			{ok,Data14002} = pt_14:write(14002,DataList);
+			{ok,Data12001} = pt_12:write(12001,[1,-CostCoin,NewPlayer#player.coin,1])
+		true ->
+			NewPlayer = Player,
+			{ok,Data14002} = pt_14:write(14002,[])
+	end,
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14002),
-	{ok,Player};
+	{ok,NewPlayer};
 
 
 handle_cmd(14006, Player, _) ->

@@ -55,7 +55,12 @@ write(14002,Data) ->
 		<<AllLength:16,AllListBin/binary,ClearLength:16,ClearListBin/binary>>
 	end,
 	ListBin = list_to_binary(lists:map(F,Data)),
-	{ok, pt:pack(14002,<<Length:16,ListBin/binary>>)};
+	if 
+		Length /= 0 ->
+			{ok, pt:pack(14002,<<0:8,Length:16,ListBin/binary>>)};
+		true ->
+			{ok, pt:pack(14002,<<1:8,Length:16>>)}
+	end;
 
 write(Cmd, _R) ->
 ?INFO_MSG("~s_errorcmd_[~p] ",[misc:time_format(game_timer:now()), Cmd]),

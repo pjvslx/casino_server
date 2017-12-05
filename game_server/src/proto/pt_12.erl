@@ -4,18 +4,13 @@
 
 %%
 %%客户端 -> 服务端 ----------------------------
-%%
-
-%%进入或切换场景
-read(12001, << Type:8 >>) ->
-    {ok, [Type]};
-
+%
 read(_Cmd, _R) ->
     {error, no_match}.
 
 
-write(12001, [Result,SceneId,X,Y]) ->
-    {ok, pt:pack(12001, <<Result:8, SceneId:8 , X:8 , Y:8 >>)};
+write(12001, [PropId,ChangeValue,CurValue,Reason]) ->
+    {ok, pt:pack(12001, <<PropId:8, ChangeValue:64 , CurValue:64 , Reason:8 >>)};
 
 %% -----------------------------------------------------------------
 %% 错误处理

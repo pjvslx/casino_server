@@ -142,3 +142,16 @@ get_online_info_fields(Pid, L) when is_pid(Pid) ->
         {ok, PlayerFields} ->
             PlayerFields
     end.
+
+%% 增加铜钱
+add_coin(Status, 0) ->  
+    Status;
+add_coin(Status, Num) ->
+    Coin = max(Status#player.coin + Num, 0),
+    %%     db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    Status#player{coin = Coin}.
+%%消耗铜钱
+cost_coin(Status, Num) ->
+    Coin = max(Status#player.coin - Num, 0),
+    %%     db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    Status#player{coin = Coin}.
