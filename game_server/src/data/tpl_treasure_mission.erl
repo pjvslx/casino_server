@@ -506,3 +506,966 @@ get_by_mission(3)->
 	
 get_by_mission(_)->	
  [].	
+	
+get_by_mission_stone_id_line_num(1,1,4)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[1]]);	
+	
+get_by_mission_stone_id_line_num(1,1,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[2]]);	
+	
+get_by_mission_stone_id_line_num(1,1,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[3]]);	
+	
+get_by_mission_stone_id_line_num(1,1,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[4]]);	
+	
+get_by_mission_stone_id_line_num(1,1,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[5]]);	
+	
+get_by_mission_stone_id_line_num(1,1,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[6]]);	
+	
+get_by_mission_stone_id_line_num(1,1,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[7]]);	
+	
+get_by_mission_stone_id_line_num(1,1,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[8]]);	
+	
+get_by_mission_stone_id_line_num(1,1,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[9]]);	
+	
+get_by_mission_stone_id_line_num(1,1,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[10]]);	
+	
+get_by_mission_stone_id_line_num(1,1,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[11]]);	
+	
+get_by_mission_stone_id_line_num(1,1,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[12]]);	
+	
+get_by_mission_stone_id_line_num(1,1,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[13]]);	
+	
+get_by_mission_stone_id_line_num(1,2,4)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[14]]);	
+	
+get_by_mission_stone_id_line_num(1,2,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[15]]);	
+	
+get_by_mission_stone_id_line_num(1,2,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[16]]);	
+	
+get_by_mission_stone_id_line_num(1,2,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[17]]);	
+	
+get_by_mission_stone_id_line_num(1,2,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[18]]);	
+	
+get_by_mission_stone_id_line_num(1,2,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[19]]);	
+	
+get_by_mission_stone_id_line_num(1,2,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[20]]);	
+	
+get_by_mission_stone_id_line_num(1,2,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[21]]);	
+	
+get_by_mission_stone_id_line_num(1,2,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[22]]);	
+	
+get_by_mission_stone_id_line_num(1,2,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[23]]);	
+	
+get_by_mission_stone_id_line_num(1,2,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[24]]);	
+	
+get_by_mission_stone_id_line_num(1,2,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[25]]);	
+	
+get_by_mission_stone_id_line_num(1,2,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[26]]);	
+	
+get_by_mission_stone_id_line_num(1,3,4)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[27]]);	
+	
+get_by_mission_stone_id_line_num(1,3,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[28]]);	
+	
+get_by_mission_stone_id_line_num(1,3,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[29]]);	
+	
+get_by_mission_stone_id_line_num(1,3,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[30]]);	
+	
+get_by_mission_stone_id_line_num(1,3,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[31]]);	
+	
+get_by_mission_stone_id_line_num(1,3,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[32]]);	
+	
+get_by_mission_stone_id_line_num(1,3,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[33]]);	
+	
+get_by_mission_stone_id_line_num(1,3,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[34]]);	
+	
+get_by_mission_stone_id_line_num(1,3,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[35]]);	
+	
+get_by_mission_stone_id_line_num(1,3,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[36]]);	
+	
+get_by_mission_stone_id_line_num(1,3,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[37]]);	
+	
+get_by_mission_stone_id_line_num(1,3,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[38]]);	
+	
+get_by_mission_stone_id_line_num(1,3,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[39]]);	
+	
+get_by_mission_stone_id_line_num(1,4,4)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[40]]);	
+	
+get_by_mission_stone_id_line_num(1,4,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[41]]);	
+	
+get_by_mission_stone_id_line_num(1,4,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[42]]);	
+	
+get_by_mission_stone_id_line_num(1,4,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[43]]);	
+	
+get_by_mission_stone_id_line_num(1,4,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[44]]);	
+	
+get_by_mission_stone_id_line_num(1,4,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[45]]);	
+	
+get_by_mission_stone_id_line_num(1,4,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[46]]);	
+	
+get_by_mission_stone_id_line_num(1,4,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[47]]);	
+	
+get_by_mission_stone_id_line_num(1,4,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[48]]);	
+	
+get_by_mission_stone_id_line_num(1,4,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[49]]);	
+	
+get_by_mission_stone_id_line_num(1,4,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[50]]);	
+	
+get_by_mission_stone_id_line_num(1,4,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[51]]);	
+	
+get_by_mission_stone_id_line_num(1,4,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[52]]);	
+	
+get_by_mission_stone_id_line_num(1,5,4)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[53]]);	
+	
+get_by_mission_stone_id_line_num(1,5,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[54]]);	
+	
+get_by_mission_stone_id_line_num(1,5,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[55]]);	
+	
+get_by_mission_stone_id_line_num(1,5,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[56]]);	
+	
+get_by_mission_stone_id_line_num(1,5,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[57]]);	
+	
+get_by_mission_stone_id_line_num(1,5,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[58]]);	
+	
+get_by_mission_stone_id_line_num(1,5,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[59]]);	
+	
+get_by_mission_stone_id_line_num(1,5,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[60]]);	
+	
+get_by_mission_stone_id_line_num(1,5,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[61]]);	
+	
+get_by_mission_stone_id_line_num(1,5,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[62]]);	
+	
+get_by_mission_stone_id_line_num(1,5,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[63]]);	
+	
+get_by_mission_stone_id_line_num(1,5,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[64]]);	
+	
+get_by_mission_stone_id_line_num(1,5,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[65]]);	
+	
+get_by_mission_stone_id_line_num(2,6,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[66]]);	
+	
+get_by_mission_stone_id_line_num(2,6,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[67]]);	
+	
+get_by_mission_stone_id_line_num(2,6,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[68]]);	
+	
+get_by_mission_stone_id_line_num(2,6,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[69]]);	
+	
+get_by_mission_stone_id_line_num(2,6,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[70]]);	
+	
+get_by_mission_stone_id_line_num(2,6,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[71]]);	
+	
+get_by_mission_stone_id_line_num(2,6,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[72]]);	
+	
+get_by_mission_stone_id_line_num(2,6,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[73]]);	
+	
+get_by_mission_stone_id_line_num(2,6,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[74]]);	
+	
+get_by_mission_stone_id_line_num(2,6,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[75]]);	
+	
+get_by_mission_stone_id_line_num(2,6,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[76]]);	
+	
+get_by_mission_stone_id_line_num(2,6,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[77]]);	
+	
+get_by_mission_stone_id_line_num(2,6,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[78]]);	
+	
+get_by_mission_stone_id_line_num(2,6,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[79]]);	
+	
+get_by_mission_stone_id_line_num(2,6,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[80]]);	
+	
+get_by_mission_stone_id_line_num(2,6,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[81]]);	
+	
+get_by_mission_stone_id_line_num(2,7,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[82]]);	
+	
+get_by_mission_stone_id_line_num(2,7,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[83]]);	
+	
+get_by_mission_stone_id_line_num(2,7,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[84]]);	
+	
+get_by_mission_stone_id_line_num(2,7,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[85]]);	
+	
+get_by_mission_stone_id_line_num(2,7,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[86]]);	
+	
+get_by_mission_stone_id_line_num(2,7,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[87]]);	
+	
+get_by_mission_stone_id_line_num(2,7,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[88]]);	
+	
+get_by_mission_stone_id_line_num(2,7,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[89]]);	
+	
+get_by_mission_stone_id_line_num(2,7,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[90]]);	
+	
+get_by_mission_stone_id_line_num(2,7,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[91]]);	
+	
+get_by_mission_stone_id_line_num(2,7,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[92]]);	
+	
+get_by_mission_stone_id_line_num(2,7,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[93]]);	
+	
+get_by_mission_stone_id_line_num(2,7,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[94]]);	
+	
+get_by_mission_stone_id_line_num(2,7,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[95]]);	
+	
+get_by_mission_stone_id_line_num(2,7,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[96]]);	
+	
+get_by_mission_stone_id_line_num(2,7,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[97]]);	
+	
+get_by_mission_stone_id_line_num(2,8,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[98]]);	
+	
+get_by_mission_stone_id_line_num(2,8,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[99]]);	
+	
+get_by_mission_stone_id_line_num(2,8,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[100]]);	
+	
+get_by_mission_stone_id_line_num(2,8,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[101]]);	
+	
+get_by_mission_stone_id_line_num(2,8,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[102]]);	
+	
+get_by_mission_stone_id_line_num(2,8,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[103]]);	
+	
+get_by_mission_stone_id_line_num(2,8,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[104]]);	
+	
+get_by_mission_stone_id_line_num(2,8,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[105]]);	
+	
+get_by_mission_stone_id_line_num(2,8,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[106]]);	
+	
+get_by_mission_stone_id_line_num(2,8,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[107]]);	
+	
+get_by_mission_stone_id_line_num(2,8,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[108]]);	
+	
+get_by_mission_stone_id_line_num(2,8,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[109]]);	
+	
+get_by_mission_stone_id_line_num(2,8,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[110]]);	
+	
+get_by_mission_stone_id_line_num(2,8,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[111]]);	
+	
+get_by_mission_stone_id_line_num(2,8,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[112]]);	
+	
+get_by_mission_stone_id_line_num(2,8,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[113]]);	
+	
+get_by_mission_stone_id_line_num(2,9,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[114]]);	
+	
+get_by_mission_stone_id_line_num(2,9,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[115]]);	
+	
+get_by_mission_stone_id_line_num(2,9,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[116]]);	
+	
+get_by_mission_stone_id_line_num(2,9,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[117]]);	
+	
+get_by_mission_stone_id_line_num(2,9,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[118]]);	
+	
+get_by_mission_stone_id_line_num(2,9,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[119]]);	
+	
+get_by_mission_stone_id_line_num(2,9,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[120]]);	
+	
+get_by_mission_stone_id_line_num(2,9,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[121]]);	
+	
+get_by_mission_stone_id_line_num(2,9,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[122]]);	
+	
+get_by_mission_stone_id_line_num(2,9,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[123]]);	
+	
+get_by_mission_stone_id_line_num(2,9,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[124]]);	
+	
+get_by_mission_stone_id_line_num(2,9,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[125]]);	
+	
+get_by_mission_stone_id_line_num(2,9,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[126]]);	
+	
+get_by_mission_stone_id_line_num(2,9,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[127]]);	
+	
+get_by_mission_stone_id_line_num(2,9,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[128]]);	
+	
+get_by_mission_stone_id_line_num(2,9,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[129]]);	
+	
+get_by_mission_stone_id_line_num(2,10,5)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[130]]);	
+	
+get_by_mission_stone_id_line_num(2,10,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[131]]);	
+	
+get_by_mission_stone_id_line_num(2,10,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[132]]);	
+	
+get_by_mission_stone_id_line_num(2,10,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[133]]);	
+	
+get_by_mission_stone_id_line_num(2,10,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[134]]);	
+	
+get_by_mission_stone_id_line_num(2,10,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[135]]);	
+	
+get_by_mission_stone_id_line_num(2,10,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[136]]);	
+	
+get_by_mission_stone_id_line_num(2,10,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[137]]);	
+	
+get_by_mission_stone_id_line_num(2,10,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[138]]);	
+	
+get_by_mission_stone_id_line_num(2,10,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[139]]);	
+	
+get_by_mission_stone_id_line_num(2,10,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[140]]);	
+	
+get_by_mission_stone_id_line_num(2,10,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[141]]);	
+	
+get_by_mission_stone_id_line_num(2,10,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[142]]);	
+	
+get_by_mission_stone_id_line_num(2,10,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[143]]);	
+	
+get_by_mission_stone_id_line_num(2,10,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[144]]);	
+	
+get_by_mission_stone_id_line_num(2,10,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[145]]);	
+	
+get_by_mission_stone_id_line_num(3,11,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[146]]);	
+	
+get_by_mission_stone_id_line_num(3,11,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[147]]);	
+	
+get_by_mission_stone_id_line_num(3,11,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[148]]);	
+	
+get_by_mission_stone_id_line_num(3,11,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[149]]);	
+	
+get_by_mission_stone_id_line_num(3,11,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[150]]);	
+	
+get_by_mission_stone_id_line_num(3,11,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[151]]);	
+	
+get_by_mission_stone_id_line_num(3,11,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[152]]);	
+	
+get_by_mission_stone_id_line_num(3,11,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[153]]);	
+	
+get_by_mission_stone_id_line_num(3,11,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[154]]);	
+	
+get_by_mission_stone_id_line_num(3,11,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[155]]);	
+	
+get_by_mission_stone_id_line_num(3,11,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[156]]);	
+	
+get_by_mission_stone_id_line_num(3,11,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[157]]);	
+	
+get_by_mission_stone_id_line_num(3,11,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[158]]);	
+	
+get_by_mission_stone_id_line_num(3,11,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[159]]);	
+	
+get_by_mission_stone_id_line_num(3,11,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[160]]);	
+	
+get_by_mission_stone_id_line_num(3,11,21)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[161]]);	
+	
+get_by_mission_stone_id_line_num(3,11,22)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[162]]);	
+	
+get_by_mission_stone_id_line_num(3,11,23)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[163]]);	
+	
+get_by_mission_stone_id_line_num(3,11,24)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[164]]);	
+	
+get_by_mission_stone_id_line_num(3,12,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[165]]);	
+	
+get_by_mission_stone_id_line_num(3,12,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[166]]);	
+	
+get_by_mission_stone_id_line_num(3,12,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[167]]);	
+	
+get_by_mission_stone_id_line_num(3,12,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[168]]);	
+	
+get_by_mission_stone_id_line_num(3,12,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[169]]);	
+	
+get_by_mission_stone_id_line_num(3,12,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[170]]);	
+	
+get_by_mission_stone_id_line_num(3,12,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[171]]);	
+	
+get_by_mission_stone_id_line_num(3,12,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[172]]);	
+	
+get_by_mission_stone_id_line_num(3,12,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[173]]);	
+	
+get_by_mission_stone_id_line_num(3,12,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[174]]);	
+	
+get_by_mission_stone_id_line_num(3,12,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[175]]);	
+	
+get_by_mission_stone_id_line_num(3,12,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[176]]);	
+	
+get_by_mission_stone_id_line_num(3,12,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[177]]);	
+	
+get_by_mission_stone_id_line_num(3,12,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[178]]);	
+	
+get_by_mission_stone_id_line_num(3,12,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[179]]);	
+	
+get_by_mission_stone_id_line_num(3,12,21)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[180]]);	
+	
+get_by_mission_stone_id_line_num(3,12,22)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[181]]);	
+	
+get_by_mission_stone_id_line_num(3,12,23)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[182]]);	
+	
+get_by_mission_stone_id_line_num(3,12,24)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[183]]);	
+	
+get_by_mission_stone_id_line_num(3,13,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[184]]);	
+	
+get_by_mission_stone_id_line_num(3,13,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[185]]);	
+	
+get_by_mission_stone_id_line_num(3,13,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[186]]);	
+	
+get_by_mission_stone_id_line_num(3,13,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[187]]);	
+	
+get_by_mission_stone_id_line_num(3,13,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[188]]);	
+	
+get_by_mission_stone_id_line_num(3,13,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[189]]);	
+	
+get_by_mission_stone_id_line_num(3,13,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[190]]);	
+	
+get_by_mission_stone_id_line_num(3,13,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[191]]);	
+	
+get_by_mission_stone_id_line_num(3,13,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[192]]);	
+	
+get_by_mission_stone_id_line_num(3,13,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[193]]);	
+	
+get_by_mission_stone_id_line_num(3,13,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[194]]);	
+	
+get_by_mission_stone_id_line_num(3,13,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[195]]);	
+	
+get_by_mission_stone_id_line_num(3,13,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[196]]);	
+	
+get_by_mission_stone_id_line_num(3,13,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[197]]);	
+	
+get_by_mission_stone_id_line_num(3,13,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[198]]);	
+	
+get_by_mission_stone_id_line_num(3,13,21)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[199]]);	
+	
+get_by_mission_stone_id_line_num(3,13,22)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[200]]);	
+	
+get_by_mission_stone_id_line_num(3,13,23)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[201]]);	
+	
+get_by_mission_stone_id_line_num(3,13,24)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[202]]);	
+	
+get_by_mission_stone_id_line_num(3,14,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[203]]);	
+	
+get_by_mission_stone_id_line_num(3,14,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[204]]);	
+	
+get_by_mission_stone_id_line_num(3,14,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[205]]);	
+	
+get_by_mission_stone_id_line_num(3,14,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[206]]);	
+	
+get_by_mission_stone_id_line_num(3,14,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[207]]);	
+	
+get_by_mission_stone_id_line_num(3,14,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[208]]);	
+	
+get_by_mission_stone_id_line_num(3,14,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[209]]);	
+	
+get_by_mission_stone_id_line_num(3,14,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[210]]);	
+	
+get_by_mission_stone_id_line_num(3,14,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[211]]);	
+	
+get_by_mission_stone_id_line_num(3,14,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[212]]);	
+	
+get_by_mission_stone_id_line_num(3,14,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[213]]);	
+	
+get_by_mission_stone_id_line_num(3,14,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[214]]);	
+	
+get_by_mission_stone_id_line_num(3,14,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[215]]);	
+	
+get_by_mission_stone_id_line_num(3,14,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[216]]);	
+	
+get_by_mission_stone_id_line_num(3,14,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[217]]);	
+	
+get_by_mission_stone_id_line_num(3,14,21)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[218]]);	
+	
+get_by_mission_stone_id_line_num(3,14,22)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[219]]);	
+	
+get_by_mission_stone_id_line_num(3,14,23)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[220]]);	
+	
+get_by_mission_stone_id_line_num(3,14,24)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[221]]);	
+	
+get_by_mission_stone_id_line_num(3,15,6)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[222]]);	
+	
+get_by_mission_stone_id_line_num(3,15,7)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[223]]);	
+	
+get_by_mission_stone_id_line_num(3,15,8)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[224]]);	
+	
+get_by_mission_stone_id_line_num(3,15,9)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[225]]);	
+	
+get_by_mission_stone_id_line_num(3,15,10)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[226]]);	
+	
+get_by_mission_stone_id_line_num(3,15,11)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[227]]);	
+	
+get_by_mission_stone_id_line_num(3,15,12)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[228]]);	
+	
+get_by_mission_stone_id_line_num(3,15,13)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[229]]);	
+	
+get_by_mission_stone_id_line_num(3,15,14)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[230]]);	
+	
+get_by_mission_stone_id_line_num(3,15,15)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[231]]);	
+	
+get_by_mission_stone_id_line_num(3,15,16)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[232]]);	
+	
+get_by_mission_stone_id_line_num(3,15,17)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[233]]);	
+	
+get_by_mission_stone_id_line_num(3,15,18)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[234]]);	
+	
+get_by_mission_stone_id_line_num(3,15,19)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[235]]);	
+	
+get_by_mission_stone_id_line_num(3,15,20)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[236]]);	
+	
+get_by_mission_stone_id_line_num(3,15,21)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[237]]);	
+	
+get_by_mission_stone_id_line_num(3,15,22)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[238]]);	
+	
+get_by_mission_stone_id_line_num(3,15,23)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[239]]);	
+	
+get_by_mission_stone_id_line_num(3,15,24)->	
+	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
+	[[240]]);	
+	
+get_by_mission_stone_id_line_num(_,_,_)->	
+ [].	

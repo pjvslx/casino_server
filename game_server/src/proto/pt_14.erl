@@ -1,6 +1,7 @@
 -module(pt_14).
 -export([read/2, write/2]).
 -include("common.hrl").
+-include("record.hrl").
 
 read(14001, _) ->
     {ok, []};
@@ -24,6 +25,21 @@ read(_Cmd, _R) ->
 %% -----------------------------------------------------------------
 %% 错误处理
 %% -----------------------------------------------------------------
+write(14000, [Mission1,Mission2,Mission3]) ->
+	F = fun(Config) ->
+		StoneId = Config#treasure_mission_config.stone_id,
+		LineNum = Config#treasure_mission_config.line_num,
+		OddFactor = Config#treasure_mission_config.odds_factor,
+		<<StoneId:8,LineNum:8,OddFactor:32>> 
+	end,
+	Length1 = length(Mission1),
+	ListBin1 = list_to_binary(lists:map(F,Mission1)),
+	Length2 = length(Mission2),
+	ListBin2 = list_to_binary(lists:map(F,Mission2)),
+	Length3 = length(Mission3),
+	ListBin3 = list_to_binary(lists:map(F,Mission3)),
+	{ok,pt:pack(14000,<<Length1:16,ListBin1/binary,Length2:16,ListBin2/binary,Length3:16,ListBin3/binary>>)};
+
 write(14001, [Level,LeftBrick,TotalCoins,GameCoins,PoolCoins,MinBet,MaxBet,LineList]) ->
 	Length = length(LineList),
 	F = fun(Line) ->

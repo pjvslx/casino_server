@@ -82,5 +82,6 @@
       line_num = 10,                          %% 相连数	
       odds_factor = 0,                        %% 赔率	
       mission = 1,                            %% 关卡等级	
-      is_crit = 0                             %% 	
+      is_crit = 0,                            %% 大奖 全部消除
+      cid = 0                                 %% 唯一主键
     }).	

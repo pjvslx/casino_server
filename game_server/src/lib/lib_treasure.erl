@@ -12,21 +12,17 @@
     }).	
 
 %% lib_treasure:bet(1).
-bet(Level) ->
-	if 
-		Level == 1 ->
-			BoundLimit = 4;
-		Level == 2 ->
-			BoundLimit = 5;
-		Level == 3 ->
-			BoundLimit = 6
-	end,
+bet(Player,BetCoins) ->
+	Level = Player#player.other#player_other.treasure_level,
+	io:format("Level = ~p~n",[Level]),
+	BoundLimit = get_boundlimit_by_level(Level),
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
-	OutputList = deal_one_round(BoundLimit,RandomList1,[]),
+	OutputList = deal_one_round(Level,RandomList1,[],BetCoins),
 	OutputList.
 
-deal_one_round(BoundLimit,List,OutputList) ->
-	Ret = make_all_clear(BoundLimit,List),
+deal_one_round(Level,List,OutputList,BetCoins) ->
+	BoundLimit = get_boundlimit_by_level(Level),
+	Ret = make_all_clear(Level,List,BetCoins),
 	io:format("Ret = ~p~n",[Ret]),
 	AllInfo = lists:flatmap(
 		fun(Cell)->
@@ -82,31 +78,54 @@ deal_one_round(BoundLimit,List,OutputList) ->
 				),
 			AllResultInfo = [{AllInfo,RetInfo}],
 			NewOutputList = OutputList ++ AllResultInfo,
-			deal_one_round(BoundLimit,SortMergeCellList,NewOutputList);
+			deal_one_round(Level,SortMergeCellList,NewOutputList,BetCoins);
 		true ->
 			AllResultInfo = [{AllInfo,[]}],
 			NewOutputList = OutputList ++ AllResultInfo,
 			NewOutputList
 	end.
 
-make_all_clear(BoundLimit,RandomList1)->
+get_boundlimit_by_level(Level) ->
+	io:format("Level = ~p~n",[Level]),
+	if 
+		Level == 1 ->
+			BoundLimit = 4;
+		Level == 2 ->
+			BoundLimit = 5;
+		Level == 3 ->
+			BoundLimit = 6
+	end.
+
+can_clear(Level,StoneId,Length) ->
+	DataList = tpl_treasure_mission:get_by_mission_stone_id_line_num(Level,StoneId,Length),
+	if 
+		length(DataList) == 0 ->
+			false;
+		true ->
+			true
+	end.
+
+make_all_clear(Level,RandomList1,BetCoins)->
 	io:format("make_all_clear ~n"),
 	io:format("RandomList1 = ~p~n",[RandomList1]),
+	BoundLimit = get_boundlimit_by_level(Level),
 	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
 	Ret = lists:foldl(
 		fun(Cell,RetList) -> 
-			List = make_clear_rule(Cell,Cell#cell.index,BoundLimit,RandomList1,RetList),
+			List = make_clear_rule(Cell,Cell#cell.index,BoundLimit,RandomList1,RetList,BetCoins),
+			ListLen = length(List),
+			CanClear = can_clear(Level,Cell#cell.value,ListLen),
 			if 
 				length(RetList) == 0 ->
 					if 
-						length(List) >= 3 ->
+						CanClear == true ->
 							[List];
 						true ->
 							[]
 					end;
 				true ->
 					if 
-						length(List) >= 3 ->
+						CanClear == true ->
 							Element = lists:nth(1,RetList),
 							if 
 								is_list(Element) == true ->
@@ -329,7 +348,7 @@ is_cell_in_list(Cell,CellList)->
 %%BoundLimit边界 4*4 5*5 6*6
 %%RandomList1 随机出的总的Cell列表
 %%LastRetList 上一次make_clear_rule得到的结果
-make_clear_rule(Cell,Index,BoundLimit,RandomList1,LastRetList)->
+make_clear_rule(Cell,Index,BoundLimit,RandomList1,LastRetList,BetCoins)->
 	LastLength = length(LastRetList),
 	if
 		LastLength == 0 ->

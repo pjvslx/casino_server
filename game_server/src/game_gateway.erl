@@ -120,7 +120,9 @@ handoff(Socket) ->
         	<<Len:16, Op_Code:16>> = Packet,
             io:format("~s get_msg: ~p Op_Code = ~p Len = ~p ~n",[misc:time_format(now()),Packet,Op_Code,Len]),
 			P = tool:to_list(Packet),
+			io:format("P = ~p~n",[P]),
 			P1 = string:left(P, 4),
+			io:format("P1 = ~p~n",[P1]),
 			if (P1 == "GET " orelse P1 == "POST") ->
 				   P2 = string:right(P, length(P) - 4),
 					misc_admin:treat_http_request(Socket, P2),

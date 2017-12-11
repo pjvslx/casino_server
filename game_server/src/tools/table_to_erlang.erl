@@ -26,7 +26,8 @@
 %%用于生成返回值为列表的函数
 -define(TABLES_LIST, [
          %数据库表名   %erlang文件名  %参数  %Id名 %%第三个字段集关联第四个字段
-      {treasure_mission_config,tpl_treasure_mission,[mission],[cid]}
+      {treasure_mission_config,tpl_treasure_mission,[mission],[cid]},
+      {treasure_mission_config,tpl_treasure_mission,[mission,stone_id,line_num],[cid]}
     ]).
 %%
 %% Exported Functions

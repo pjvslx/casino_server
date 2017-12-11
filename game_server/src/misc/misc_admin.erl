@@ -27,19 +27,31 @@ treat_http_request(Socket, PacketStr) ->
 		{ok, Packet} -> 
 			try  
 				P = lists:concat([PacketStr, tool:to_list(Packet)]),
+				io:format("fuck P = ~p~n",[P]),
 				io:format("PacketStr ~p ~n",[http_util:get_cmd_parm(P)]),
 %% 				?INFO_MSG("Packet:~p ~n", [P]),
 				{Cmd, KvList, Md5Key} = http_util:get_cmd_parm(P),
 				Md5Str = string:to_upper(tool:md5(Md5Key)),
 				io:format("md5 ~p ~n",[Md5Str]),
 %% 				?INFO_MSG("Cmd:~p ~n ~p ~n ~p ~n ~p ~n ~n", [Cmd, KvList, Md5Key, Md5Str]),
-				case Md5Str =:= http_util:get_param("flag", KvList) of
-					false ->	 do_handle_request(Cmd, KvList, Socket);
-					true ->	gen_tcp:send(Socket, ?FLAG_ERROR_CODE)
+				FlagParam = http_util:get_param("flag", KvList),
+				io:format("Cmd:~p ~n ~p ~n ~p ~n ~p ~n ~n", [Cmd, KvList, Md5Key, Md5Str]),
+				if
+					Md5Str =:= FlagParam ->
+						io:format("1111111111111~n"),
+						gen_tcp:send(Socket, ?FLAG_ERROR_CODE);
+					true ->
+						io:format("2222222222222~n"),
+						do_handle_request(Cmd, KvList, Socket)
 				end
+				% case Md5Str =:= http_util:get_param("flag", KvList) of
+				% 	false ->	 do_handle_request(Cmd, KvList, Socket);
+				% 	true ->	gen_tcp:send(Socket, ?FLAG_ERROR_CODE)
+				% end
 			catch
 				What:Why -> 
 					?ERROR_MSG("What ~p, Why ~p, ~p", [What, Why, erlang:get_stacktrace()]),
+					io:format("What ~p, Why ~p, ~p", [What, Why, erlang:get_stacktrace()]),
 					gen_tcp:send(Socket, ?FAILED_CODE)
 			end;
 		{error, Reason} -> 
@@ -48,11 +60,14 @@ treat_http_request(Socket, PacketStr) ->
  
 %% 消息广播
 do_handle_request("send_sys_bulletin", KvList, Socket) ->
+	io:format("do_handle_request send_sys_bulletin ~n"),
 	MsgType		= list_to_integer(http_util:get_param("msg_type", KvList)),
+	io:format("MsgType = ~p~n",[MsgType]),
  	Content		= http_util:get_param("content", KvList),
+ 	io:format("Content = ~p~n",[Content]),
 	cast_to_server(lib_chat, broadcast_sys_msg, [MsgType, Content]),
 %% 	lib_chat:broadcast_sys_msg("test"),
-	?INFO_MSG("type:~p content:~ts ~n", [MsgType, Content]),
+	io:format("type:~p content:~ts ~n", [MsgType, Content]),
 	
 	gen_tcp:send(Socket, <<"HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nhello world!">>);
 %	gen_tcp:send(Socket, ?SUCCESS_CODE);

@@ -24,11 +24,14 @@ check_ip(Socket) ->
 get_cmd_parm(Packet) ->
 %% 	Packet_list = string:to_lower(tool:to_list(Packet)),
 	Packet_list = tool:to_list(Packet),
+	io:format("Packet_list = ~p~n",[Packet_list]),
 	try
 		case string:str(Packet_list, " ") of
 			0 -> no_cmd;
 			N -> 
+				io:format("N = ~p~n",[N]),
 				CM = string:substr(Packet_list,2,N-2),
+				io:format("CM = ~p~n",[CM]),
 				case string:str(CM, "?") of
 					0 -> [CM, ""];
 					N1 -> 
