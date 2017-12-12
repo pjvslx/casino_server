@@ -11,6 +11,16 @@
 	value = 0
     }).	
 
+get_odds(Level,StoneId,Length)->
+	DataList = tpl_treasure_mission:get_by_mission_stone_id_line_num(Level,StoneId,Length),
+	if 
+		length(DataList) == 0 ->
+			0;
+		true ->
+			[E|L] = DataList,
+			E#treasure_mission_config.odds_factor / 100
+	end.
+
 %% lib_treasure:bet(1).
 bet(Player,BetCoins) ->
 	Level = Player#player.other#player_other.treasure_level,
@@ -18,6 +28,7 @@ bet(Player,BetCoins) ->
 	BoundLimit = get_boundlimit_by_level(Level),
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
 	OutputList = deal_one_round(Level,RandomList1,[],BetCoins),
+	io:format("OutputList = ~p~n",[OutputList]),
 	OutputList.
 
 deal_one_round(Level,List,OutputList,BetCoins) ->
@@ -76,7 +87,17 @@ deal_one_round(Level,List,OutputList,BetCoins) ->
 				end,
 				MergeCellList
 				),
-			AllResultInfo = [{AllInfo,RetInfo}],
+			FormatRet = lists:foldl(
+				fun(RetElement,Sum)->
+					[RetCell|L] = RetElement,
+					Odds = get_odds(Level,RetCell#cell.value,length(RetElement)),
+					io:format("Odds = ~p BetCoins = ~p~n",[Odds,BetCoins]),
+					Sum ++ [{RetElement,Odds * BetCoins}]
+				end,
+				[],
+				Ret
+				),
+			AllResultInfo = [{AllInfo,FormatRet}],
 			NewOutputList = OutputList ++ AllResultInfo,
 			deal_one_round(Level,SortMergeCellList,NewOutputList,BetCoins);
 		true ->

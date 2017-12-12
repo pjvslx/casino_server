@@ -59,11 +59,16 @@ s >> c:
 		)					all_stone_array 总的石头
 		array
 		(
-			int:8 row			第几行
-			int:8 col			第几列
-			int:8 stone_id		石头ID
-		)					dismiss_stone_array 消除的石头
-	)						中奖过程展示
+			array
+			(
+				int:8 row			第几行
+				int:8 col			第几列
+				int:8 stone_id		石头ID
+			)					dismiss_stone_array 消除的石头
+			reward_coins		金币数量
+		)
+		
+	)	中奖过程展示
 
 %------------------------------------------
 %Protocol: 14003 消除动画播放完毕

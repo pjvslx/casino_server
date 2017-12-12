@@ -62,9 +62,18 @@ write(14002,Data) ->
 			AllInfoList
 			)),
 		ClearListBin = list_to_binary(lists:map(
-			fun(ClearCellUnit)->
-				{Row,Col,Value} = ClearCellUnit,
-				<<Row:8,Col:8,Value:8>>
+			fun(ClearData)->
+				{ClearCellList,ClearReward} = ClearData,
+				InnerLength = length(ClearCellList),
+				ListBin = list_to_binary(lists:map(
+					fun(Cell)->
+						{cell,Index,Row,Col,Value} = Cell,
+						<<Row:8,Col:8,Value:8>>
+					end,
+					ClearCellList
+					)),
+				Reward = tool:floor(ClearReward),
+				<<InnerLength:16,ListBin/binary,Reward:64>>
 			end,
 			ClearInfoList
 			)),
