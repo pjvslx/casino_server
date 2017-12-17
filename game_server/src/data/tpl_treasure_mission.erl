@@ -9,8 +9,6 @@
 -module(tpl_treasure_mission). 	
 -compile(export_all). 	
 	
-get(241)->
-	{treasure_mission_config, 1, 3, 20, 1, 0, 241};	
 get(1)->
 	{treasure_mission_config, 1, 4, 20, 1, 0, 1};	
 get(2)->
@@ -37,8 +35,6 @@ get(12)->
 	{treasure_mission_config, 1, 15, 4000, 1, 0, 12};	
 get(13)->
 	{treasure_mission_config, 1, 16, 0, 1, 1, 13};	
-get(242)->
-	{treasure_mission_config, 2, 3, 40, 1, 0, 242};	
 get(14)->
 	{treasure_mission_config, 2, 4, 40, 1, 0, 14};	
 get(15)->
@@ -65,8 +61,6 @@ get(25)->
 	{treasure_mission_config, 2, 15, 8000, 1, 0, 25};	
 get(26)->
 	{treasure_mission_config, 2, 16, 0, 1, 1, 26};	
-get(243)->
-	{treasure_mission_config, 3, 3, 50, 1, 0, 243};	
 get(27)->
 	{treasure_mission_config, 3, 4, 50, 1, 0, 27};	
 get(28)->
@@ -93,8 +87,6 @@ get(38)->
 	{treasure_mission_config, 3, 15, 60000, 1, 0, 38};	
 get(39)->
 	{treasure_mission_config, 3, 16, 0, 1, 1, 39};	
-get(244)->
-	{treasure_mission_config, 4, 3, 80, 1, 0, 244};	
 get(40)->
 	{treasure_mission_config, 4, 4, 100, 1, 0, 40};	
 get(41)->
@@ -121,8 +113,6 @@ get(51)->
 	{treasure_mission_config, 4, 15, 600000, 1, 0, 51};	
 get(52)->
 	{treasure_mission_config, 4, 16, 0, 1, 1, 52};	
-get(245)->
-	{treasure_mission_config, 5, 3, 100, 1, 0, 245};	
 get(53)->
 	{treasure_mission_config, 5, 4, 200, 1, 0, 53};	
 get(54)->
@@ -504,7 +494,7 @@ get(_)->
 	
 get_by_mission(1)->	
 	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[37],[38],[39],[40],[41],[42],[43],[44],[45],[46],[47],[48],[49],[50],[51],[52],[53],[54],[55],[56],[57],[58],[59],[60],[61],[62],[63],[64],[65],[241],[242],[243],[244],[245]]);	
+	[[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[37],[38],[39],[40],[41],[42],[43],[44],[45],[46],[47],[48],[49],[50],[51],[52],[53],[54],[55],[56],[57],[58],[59],[60],[61],[62],[63],[64],[65]]);	
 	
 get_by_mission(2)->	
 	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
@@ -1476,26 +1466,6 @@ get_by_mission_stone_id_line_num(3,15,23)->
 get_by_mission_stone_id_line_num(3,15,24)->	
 	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
 	[[240]]);	
-	
-get_by_mission_stone_id_line_num(1,1,3)->	
-	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[241]]);	
-	
-get_by_mission_stone_id_line_num(1,2,3)->	
-	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[242]]);	
-	
-get_by_mission_stone_id_line_num(1,3,3)->	
-	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[243]]);	
-	
-get_by_mission_stone_id_line_num(1,4,3)->	
-	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[244]]);	
-	
-get_by_mission_stone_id_line_num(1,5,3)->	
-	 lists:map(fun([CID])->tpl_treasure_mission:get(CID) end,
-	[[245]]);	
 	
 get_by_mission_stone_id_line_num(_,_,_)->	
  [].	

@@ -3,6 +3,7 @@
 -include("common.hrl").
 -include("record.hrl").
 -include("debug.hrl").
+-define(TREASURE_DRILL_ID,           16).  %% 钻头的ID
 
 -record(cell, {
 	index = 1,
@@ -26,15 +27,29 @@ bet(Player,BetCoins) ->
 	Level = Player#player.other#player_other.treasure_level,
 	io:format("Level = ~p~n",[Level]),
 	BoundLimit = get_boundlimit_by_level(Level),
-	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit),
+	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit,false),
 	OutputList = deal_one_round(Level,RandomList1,[],BetCoins),
 	io:format("OutputList = ~p~n",[OutputList]),
 	OutputList.
 
 deal_one_round(Level,List,OutputList,BetCoins) ->
 	BoundLimit = get_boundlimit_by_level(Level),
-	Ret = make_all_clear(Level,List,BetCoins),
-	io:format("Ret = ~p~n",[Ret]),
+	MyRet = make_all_clear(Level,List,BetCoins),
+	%%有钻头筛选出钻头形成第一波RoundInfo 没有则用正常的RoundInfo
+	NewMyRet = lists:filter(
+		fun(EList) ->
+			length(EList) == 1
+		end,
+		MyRet
+		),
+	if
+		length(NewMyRet) == 0 ->
+			Ret = MyRet;
+		true ->
+			Ret = NewMyRet
+	end,
+
+	% io:format("Ret = ~p~n",[Ret]),
 	AllInfo = lists:flatmap(
 		fun(Cell)->
 			[{Cell#cell.row,Cell#cell.col,Cell#cell.value}]
@@ -118,13 +133,19 @@ get_boundlimit_by_level(Level) ->
 	end.
 
 can_clear(Level,StoneId,Length) ->
-	DataList = tpl_treasure_mission:get_by_mission_stone_id_line_num(Level,StoneId,Length),
 	if 
-		length(DataList) == 0 ->
-			false;
+		StoneId == ?TREASURE_DRILL_ID ->
+			true;
 		true ->
-			true
+			DataList = tpl_treasure_mission:get_by_mission_stone_id_line_num(Level,StoneId,Length),
+		if 
+			length(DataList) == 0 ->
+				false;
+			true ->
+				true
+		end
 	end.
+	
 
 make_all_clear(Level,RandomList1,BetCoins)->
 	io:format("make_all_clear ~n"),
@@ -322,31 +343,70 @@ generate_cell(CellList,BoundLimit)->
 		BoundList
 		).
 
-random_many_num(Num,List,LowBound,HighBound,BoundLimit) ->
-	% if 
-	% 	Num rem BoundLimit == 0 ->
-	% 		Row = Num div BoundLimit,
-	% 		Col = BoundLimit;
-	% 	true ->
-	% 		Row = Num div BoundLimit + 1,
-	% 		Col = Num rem BoundLimit
-	% end,
+%% Fenzi 10 Fenmu 100 说明随机出钻头的概率是10/100
+random_drill(Fenzi,Fenmu) ->
+	RandomNum = util:rand(1,Fenmu),
+	if 
+		RandomNum =< Fenzi ->
+			true;
+		true ->
+			false
+	end.
 
+%% Num要随机产生的Cell个数
+%% List结果累计
+%% LowBound随机出stone_id的最小值
+%% HighBound随机出stone_id的最大值
+%% BoundLimit 4*4 or 5*5 or 6*6
+%% HasDrill是否已经随机出钻头 已随机出后续就不能再随机了
+
+%% random_many_num只能用于第一次生成宝石 后续只能用generate_cell
+random_many_num(Num,List,LowBound,HighBound,BoundLimit,HasDrill) ->
 	{Row,Col} = index_to_r_c(Num,BoundLimit),
-
 	if
 		Num == 1 ->
-			RandomNum = util:rand(LowBound,HighBound),
-			% RandomNum = 1,
+			if 
+				HasDrill == false ->
+					IsDrill = random_drill(5,100),
+					if 
+						IsDrill == true ->
+							RandomNum = ?TREASURE_DRILL_ID;
+						true ->
+							RandomNum = util:rand(LowBound,HighBound)
+					end;
+				true ->
+					RandomNum = util:rand(LowBound,HighBound)
+			end,
 			Cell = #cell{row = Row, col = Col, value = RandomNum, index = Num},
 			Result = [Cell] ++ List;
 		true ->
-			RandomNum = util:rand(LowBound,HighBound),
-			% RandomNum = 1,
+			if 
+				HasDrill == false ->
+					IsDrill = random_drill(5,100),
+					if  
+						IsDrill == true ->
+							RandomNum = ?TREASURE_DRILL_ID;
+						true ->
+							RandomNum = util:rand(LowBound,HighBound)
+					end;
+				true ->
+					RandomNum = util:rand(LowBound,HighBound)
+			end,
 			Cell = #cell{row = Row, col = Col, value = RandomNum, index = Num},
 			NewList = [Cell] ++ List,
 			NewNum = Num - 1,
-			random_many_num(NewNum,NewList,LowBound,HighBound,BoundLimit)
+			if 
+				HasDrill == true ->
+					NewHasDrill = HasDrill;
+				true ->
+					if 
+						RandomNum == ?TREASURE_DRILL_ID ->
+							NewHasDrill = true;
+						true ->
+							NewHasDrill = false
+					end
+			end,
+			random_many_num(NewNum,NewList,LowBound,HighBound,BoundLimit,NewHasDrill)
 	end.
 
 is_cell_in_list(Cell,CellList)->
