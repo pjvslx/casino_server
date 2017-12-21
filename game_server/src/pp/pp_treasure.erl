@@ -41,8 +41,11 @@ handle_cmd(14001, Player, _) ->
 handle_cmd(14002, Player, [LineNum,BetNum]) ->
 	PlayerOther = Player#player.other,
 	CostCoin = LineNum * BetNum,
+	PlayerCoins = Player#player.coin,
+	TreasureCoins = PlayerOther#player_other.treasure_score,
+	TotalCoins = PlayerCoins + TreasureCoins,
 	if 
-		Player#player.coin >= CostCoin ->
+		TotalCoins >= CostCoin ->
 			CanBet = true;
 		true ->
 			CanBet = false
@@ -50,16 +53,72 @@ handle_cmd(14002, Player, [LineNum,BetNum]) ->
 
 	if 
 		CanBet == true ->
-			DataList = lib_treasure:bet(Player,BetNum),
-			NewPlayer = lib_player:cost_coin(Player,CostCoin),
+			%%优先扣除夺宝金币
+			if 
+				CostCoin > TreasureCoins ->
+					NewPlayer1 = lib_player:cost_treasure_coin(Player,CostCoin),
+					% TC = NewPlayer1#player.other#player_other.treasure_score,
+					{ok,Data12001_1} = pt_12:write(12001,[Player#player.id,100,-CostCoin,NewPlayer1#player.other#player_other.treasure_score,1]),
+					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_1),
+					NewPlayer2 = lib_player:cost_coin(NewPlayer1, CostCoin - TreasureCoins ),
+					{ok,Data12001_2} = pt_12:write(12001,[Player#player.id,1,-(CostCoin - TreasureCoins),NewPlayer2#player.coin,1]),
+					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_2);
+				true ->
+					NewPlayer2 = lib_player:cost_treasure_coin(Player,CostCoin),
+					{ok,Data12001_1} = pt_12:write(12001,[Player#player.id,100,-CostCoin,NewPlayer2#player.other#player_other.treasure_score,1]),
+					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_1)
+			end,
+			DataList = lib_treasure:bet(NewPlayer2,BetNum),
 			{ok,Data14002} = pt_14:write(14002,DataList),
-			{ok,Data12001} = pt_12:write(12001,[1,-CostCoin,NewPlayer#player.coin,1]);
+			AllReward = lists:foldl(
+							fun({_,ClearInfoList},Sum)->
+								lists:foldl(
+									fun(ClearInfo,SubSum)->
+										{_,ClearReward} = ClearInfo,
+										SubSum + tool:floor(ClearReward)
+									end,
+									Sum,
+									ClearInfoList
+									)
+							end,
+							0,
+							DataList
+							),
+			RewardPlayer = lib_player:add_treasure_coin(NewPlayer2,AllReward),
+			if 
+				AllReward > 0 ->
+					{ok,Data12001_3} = pt_12:write(12001,[Player#player.id,100,AllReward,RewardPlayer#player.other#player_other.treasure_score,2]),
+					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_3);
+				true ->
+					pass
+			end,
+			%%判断有没有消除钻头 如果有就过关
+			HasDrill = lists:any(
+				fun({_,ClearInfoList})-> 
+					lists:any(
+						fun({ClearCellList,SubSum})->
+							length(ClearCellList) == 1 
+						end,
+						ClearInfoList
+						)
+				end,
+				DataList
+				),
+
+			if 
+				HasDrill == true ->
+					{Full,FinalPlayer} = lib_treasure:add_level(RewardPlayer),
+					{ok,Data14007} = pt_14:write(14007,[FinalPlayer#player.other#player_other.treasure_level,FinalPlayer#player.other#player_other.treasure_left_brick]),
+					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14007);
+				true ->
+					FinalPlayer = RewardPlayer
+			end;
 		true ->
-			NewPlayer = Player,
+			FinalPlayer = Player,
 			{ok,Data14002} = pt_14:write(14002,[])
 	end,
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14002),
-	{ok,NewPlayer};
+	{ok,FinalPlayer};
 
 
 handle_cmd(14006, Player, _) ->

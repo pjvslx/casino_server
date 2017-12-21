@@ -9,8 +9,8 @@ read(_Cmd, _R) ->
     {error, no_match}.
 
 
-write(12001, [PropId,ChangeValue,CurValue,Reason]) ->
-    {ok, pt:pack(12001, <<PropId:8, ChangeValue:64 , CurValue:64 , Reason:8 >>)};
+write(12001, [PlayerId,PropId,ChangeValue,CurValue,Reason]) ->
+    {ok, pt:pack(12001, <<PlayerId:64, PropId:8, ChangeValue:64 , CurValue:64 , Reason:8 >>)};
 
 %% -----------------------------------------------------------------
 %% 错误处理

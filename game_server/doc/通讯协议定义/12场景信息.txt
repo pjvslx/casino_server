@@ -4,7 +4,8 @@
 
 ################## 玩家属性协议 ####################
 s >> c:
-	prop_id:int8		1:金币
+	player_id:int64		玩家ID
+	prop_id:int8		1:金币 100: 夺宝奖励金币
 	change_value:int64	2:改变的值 		
 	current_value:int64 3:当前金币数量
 	reason:int8			4:改变原因 1:夺宝下注消耗 2:夺宝消除得钱

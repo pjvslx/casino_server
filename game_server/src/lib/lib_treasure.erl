@@ -4,6 +4,8 @@
 -include("record.hrl").
 -include("debug.hrl").
 -define(TREASURE_DRILL_ID,           16).  %% 钻头的ID
+-define(MAX_BIG_LEVEL,				  3).
+-define(MAX_LITTLE_LEVEL,			 15).
 
 -record(cell, {
 	index = 1,
@@ -11,6 +13,24 @@
 	col = 1,
 	value = 0
     }).	
+
+add_level(Player) ->
+	PlayerOther = Player#player.other,
+	if
+		PlayerOther#player_other.treasure_left_brick > 0 ->
+			Full = false,
+			NewPlayerOther = PlayerOther#player_other{ treasure_left_brick = PlayerOther#player_other.treasure_left_brick - 1};
+		true ->
+			if 
+				PlayerOther#player_other.treasure_level == 3 ->
+					Full = true,
+					NewPlayerOther = PlayerOther;
+				true ->
+					Full = false,
+					NewPlayerOther = PlayerOther#player_other{ treasure_level = PlayerOther#player_other.treasure_level + 1}
+			end
+	end,
+	{Full,Player#player{other = NewPlayerOther}}.
 
 get_odds(Level,StoneId,Length)->
 	DataList = tpl_treasure_mission:get_by_mission_stone_id_line_num(Level,StoneId,Length),

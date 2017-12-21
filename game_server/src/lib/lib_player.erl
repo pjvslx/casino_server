@@ -155,3 +155,15 @@ cost_coin(Status, Num) ->
     Coin = max(Status#player.coin - Num, 0),
     %%     db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
     Status#player{coin = Coin}.
+
+add_treasure_coin(Status, 0) ->
+    Status;
+add_treasure_coin(Status, Num) ->
+    Coin = max(Status#player.other#player_other.treasure_score + Num, 0),
+    NewOther = Status#player.other#player_other{treasure_score = Coin},
+    Status#player{other = NewOther}.
+
+cost_treasure_coin(Status, Num) ->
+    Coin = max(Status#player.other#player_other.treasure_score - Num,0),
+    NewOther = Status#player.other#player_other{treasure_score = Coin},
+    Status#player{other = NewOther}.

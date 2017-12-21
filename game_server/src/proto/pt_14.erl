@@ -87,6 +87,9 @@ write(14002,Data) ->
 			{ok, pt:pack(14002,<<1:8,Length:16>>)}
 	end;
 
+write(14007, [Level,LeftBrick]) ->
+	{ok, pt:pack(14007,<<Level:8,LeftBrick:8>>)};
+
 write(Cmd, _R) ->
 ?INFO_MSG("~s_errorcmd_[~p] ",[misc:time_format(game_timer:now()), Cmd]),
     {ok, pt:pack(0, <<>>)}.
