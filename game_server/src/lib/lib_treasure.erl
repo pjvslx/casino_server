@@ -17,7 +17,7 @@
 add_level(Player) ->
 	PlayerOther = Player#player.other,
 	if
-		PlayerOther#player_other.treasure_left_brick > 0 ->
+		PlayerOther#player_other.treasure_left_brick > 1 ->
 			Full = false,
 			NewPlayerOther = PlayerOther#player_other{ treasure_left_brick = PlayerOther#player_other.treasure_left_brick - 1};
 		true ->
@@ -27,7 +27,7 @@ add_level(Player) ->
 					NewPlayerOther = PlayerOther;
 				true ->
 					Full = false,
-					NewPlayerOther = PlayerOther#player_other{ treasure_level = PlayerOther#player_other.treasure_level + 1}
+					NewPlayerOther = PlayerOther#player_other{ treasure_level = PlayerOther#player_other.treasure_level + 1,treasure_left_brick = ?MAX_LITTLE_LEVEL}
 			end
 	end,
 	{Full,Player#player{other = NewPlayerOther}}.

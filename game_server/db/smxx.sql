@@ -590,11 +590,12 @@ CREATE TABLE `pet` (
 -- ----------------------------
 CREATE TABLE `player` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `account_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '平台账号ID',
+  `imei` varchar(50) NOT NULL DEFAULT '' COMMENT 'imei号',
+  `third_token` varchar(50) NOT NULL DEFAULT '' COMMENT '三方平台token',
+  `third_provider` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '三方平台类型',
+  `bind_phone` varchar(20) NOT NULL DEFAULT '' COMMENT '绑定手机号',
   `account_name` varchar(50) NOT NULL DEFAULT '' COMMENT '平台账号',
   `nick` varchar(50) NOT NULL DEFAULT '' COMMENT '玩家名',
-  `type` smallint(5) NOT NULL DEFAULT '1' COMMENT '玩家身份 1- 普通玩家 2 - 指导员 3 - gm',
-  `icon` int(11) NOT NULL DEFAULT '0' COMMENT '玩家头像ID',
   `reg_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `logout_time` int(11) NOT NULL DEFAULT '0' COMMENT '上次离线时间',
   `last_login_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后登陆时间',
@@ -609,37 +610,18 @@ CREATE TABLE `player` (
   `vip` int(11) NOT NULL DEFAULT '0' COMMENT 'VIP类型，0不是VIP，其他参考common.hrl',
   `vip_expire_time` int(11) NOT NULL DEFAULT '0' COMMENT 'VIP过期时间(秒)',
   `scene` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '场景ID',
-  `cell_num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '背包格子数',
   `level` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '等级',
   `exp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '经验',
-  `online_flag` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '在线标记，0不在线 1在线',
-  `resolut_x` int(8) NOT NULL DEFAULT '0' COMMENT '分辨率 X',
-  `resolut_y` int(8) NOT NULL DEFAULT '0' COMMENT '分辨率 Y',
-  `liveness` int(11) NOT NULL DEFAULT '0' COMMENT '活跃度',
-  `camp` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '阵营(国籍)',
-  `lilian` int(11) NOT NULL DEFAULT '0' COMMENT '历练值',
-  `switch` int(11) NOT NULL DEFAULT '0' COMMENT '状态开关码1:功能开 0:功能关，位定义参考common.hrl',
-  `guild_id` int(11) NOT NULL DEFAULT '0' COMMENT '派帮ID(无帮派:0)',
-  `guild_name` varchar(50) NOT NULL DEFAULT '' COMMENT '帮派名称',
-  `guild_post` tinyint(4) NOT NULL DEFAULT '0' COMMENT '帮派职位(0为小兵)',
-  `force` int(11) NOT NULL DEFAULT '0' COMMENT '战斗力',
-  `battle_attr` varchar(1024) NOT NULL DEFAULT '[]' COMMENT '战斗结构体',
+  `x` int(8) NOT NULL DEFAULT '0' COMMENT '分辨率 X',
+  `y` int(8) NOT NULL DEFAULT '0' COMMENT '分辨率 Y',
   `other` tinyint(4) NOT NULL DEFAULT '0' COMMENT '其他信息',
-  `login_times` int(10) NOT NULL DEFAULT '0' COMMENT '登陆次数',
-  `freefly` int(11) NOT NULL DEFAULT '0' COMMENT 'VIP玩家免费使用跟斗云次数',
-  `max_force` int(11) NOT NULL DEFAULT '0' COMMENT '最高战力',
-  `adore_count` int(11) NOT NULL DEFAULT '0' COMMENT '被崇拜次数',
-  `adore_detail` varchar(128) NOT NULL DEFAULT '{0,0}' COMMENT '排行榜崇拜详细信息{上次崇拜时间，剩余次数}',
-  `leader_flag` tinyint(11) NOT NULL DEFAULT '0' COMMENT '新手引导标识',
-  `login_level` smallint(5) DEFAULT '0' COMMENT '登陆时等级',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nick` (`nick`),
   KEY `level` (`level`) USING BTREE,
   KEY `account_name` (`account_name`) USING BTREE,
   KEY `last_login_time` (`last_login_time`) USING BTREE,
   KEY `reg_time` (`reg_time`) USING BTREE,
-  KEY `account_id` (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=530000007824 DEFAULT CHARSET=utf8 COMMENT='角色基本信息';
+  KEY `nick` (`nick`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1060000000013 DEFAULT CHARSET=utf8 COMMENT='角色基本信息';
 
 -- ----------------------------
 --  Table structure for `rand_shop`

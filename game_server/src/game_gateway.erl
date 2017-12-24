@@ -97,8 +97,9 @@ handoff(Socket) ->
 					% true->
 					% 	{BeginTime,EndTime,Content} = BusinessInfo,
 					{ok,Data} = pt_60:write(60000, [1, "", List]),
-					gen_tcp:send(Socket, Data);
+					gen_tcp:send(Socket, Data),
             		% gen_tcp:close(Socket);
+            		handoff(Socket);
                  _ ->
                  	io:format("recv failed~n"),
                     gen_tcp:close(Socket)
@@ -114,6 +115,7 @@ handoff(Socket) ->
                     gen_tcp:send(Socket, Data),
                     handoff(Socket);
                  _ ->
+                 	io:format("60001 gen_tcp:close()~n"),
                     gen_tcp:close(Socket)
             end;
         {ok, Packet} ->
@@ -126,8 +128,10 @@ handoff(Socket) ->
 			if (P1 == "GET " orelse P1 == "POST") ->
 				   P2 = string:right(P, length(P) - 4),
 					misc_admin:treat_http_request(Socket, P2),
+					io:format("http1 gen_tcp:close()~n"),
            		    gen_tcp:close(Socket);
 				true ->
+					io:format("http2 gen_tcp:close()~n"),
 					gen_tcp:close(Socket)
 			end;
         _Reason ->
