@@ -18,6 +18,7 @@
 %% 加入http来源IP验证 
 check_ip(Socket) ->  
 	MyIp = misc:get_ip(Socket),
+	io:format("check_ip MyIp = ~p~n", [MyIp]),
 	lists:any(fun(Ip) ->
 			tool:to_binary(MyIp)=:=tool:to_binary(Ip) end,config:get_http_ips(local_gateway)).
 

@@ -11,9 +11,9 @@
 -include("debug.hrl").
  
 %%返回码
--define(CHARGE_SUCCESS_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 1\r\n\r\n1">>). %%成功
+-define(CHARGE_SUCCESS_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nsuccess">>). %%成功
 -define(CHARGE_DUPLICATE_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 1\r\n\r\n2">>).%%订单重复不全
--define(CHARGE_PARAM_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\n-1">>).	%% 提交参数不全
+-define(CHARGE_PARAM_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\-1">>).	%% 提交参数不全
 -define(CHARGE_SIGN_ERROR_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\n-2">>).%% 签名验证失败
 -define(CHARGE_UID_ERROR_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\n-3">>).	%%用户不存在	
 -define(CHARGE_TIMEOUT_CODE, <<"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\n-4">>).		%%请求超时	
@@ -113,8 +113,12 @@ treat_http_request(Socket, PacketStr) ->
 	case gen_tcp:recv(Socket, 0, ?RECV_TIMEOUT) of 
 		{ok, Packet} -> 
 			try  
+				io:format("Packet = ~p~n",[Packet]),
+				io:format("PacketStr = ~p~n",[PacketStr]),
 				P = lists:concat([PacketStr, tool:to_list(Packet)]), 
+				io:format("P = ~p~n",[P]),
 				KvList = http_util:get_param_lists(P),
+				io:format("KvList = ~p~n",[KvList]),
 				case check_request_available(KvList) of
 					{true,_}->  
 						call_server_for_charge(KvList);
@@ -131,24 +135,59 @@ treat_http_request(Socket, PacketStr) ->
 			{false,system_error}
 	end.
 
+%通过orderId去过滤出不同支付平台的订单
+deal_http_request(Socket, PacketStr) ->
+	case gen_tcp:recv(Socket, 0, ?RECV_TIMEOUT) of
+		{ok, Packet} ->
+			%%付钱吗
+			Url = lists:concat([PacketStr, tool:to_list(Packet)]), 
+			{RetCode,JsonObj1,_} = check_fuqianla(Url),
+			io:format("JsonObj1 = ~p~n",[JsonObj1]),
+			{true,success};
+		{error, Reason} ->
+			pass
+	end.
+
+check_fuqianla(Url) ->
+	DecodeUrl = http_lib:url_decode(Url),
+	MsgField = "msg=",
+	MsgStartIndex = string:str(DecodeUrl,MsgField),
+	if 
+		MsgStartIndex == 0 ->
+			%%没有msg字段
+			{error,[]};
+		true ->
+			JsonContent = string:sub_string(DecodeUrl,MsgStartIndex + length(MsgField)),
+			{ok,JsonObj1,_} = rfc4627:decode(JsonContent)
+	end.
+
+
 %%响应http请求 
 do_respone(Socket, PacketStr)->
-	case treat_http_request(Socket, PacketStr) of
+	case deal_http_request(Socket, PacketStr) of
 		{true,success}->  
+			io:format("1111111~n"),
 			gen_tcp:send(Socket, ?CHARGE_SUCCESS_CODE);
 		{false,check}->   
+			io:format("2222222~n"),
 			gen_tcp:send(Socket, ?CHARGE_SIGN_ERROR_CODE);
 		{false,param_error} ->   
+			io:format("3333333~n"),
 			gen_tcp:send(Socket, ?CHARGE_PARAM_CODE);
 		{false,duplicate} -> 
+			io:format("4444444~n"),
 			gen_tcp:send(Socket, ?CHARGE_DUPLICATE_CODE);
 		{false,uid_error} -> 
+			io:format("5555555~n"),
 			gen_tcp:send(Socket, ?CHARGE_UID_ERROR_CODE);
 		{false,timeout}-> 
+			io:format("6666666~n"),
 			gen_tcp:send(Socket, ?CHARGE_TIMEOUT_CODE);
 		{false,system_error} -> 
+			io:format("7777777~n"),
 			gen_tcp:send(Socket, ?CHARGE_FAIL_CODE);
 		_->  
+			io:format("8888888~n"),
 			gen_tcp:send(Socket, ?CHARGE_FAIL_CODE),
 			io:format("fail ~n")
 	end.
