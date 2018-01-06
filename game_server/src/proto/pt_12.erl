@@ -10,7 +10,15 @@ read(_Cmd, _R) ->
 
 
 write(12001, [PlayerId,PropId,ChangeValue,CurValue,Reason]) ->
-    {ok, pt:pack(12001, <<PlayerId:64, PropId:8, ChangeValue:64 , CurValue:64 , Reason:8 >>)};
+	StrPlayerId = integer_to_list(PlayerId),
+	BinPlayerId = pt:pack_string(StrPlayerId),
+
+	StrChangeValue = integer_to_list(ChangeValue),
+	BinChangeValue = pt:pack_string(StrChangeValue),
+
+	StrCurValue = integer_to_list(CurValue),
+	BinCurValue = pt:pack_string(StrCurValue),
+    {ok, pt:pack(12001, <<BinPlayerId/binary, PropId:8, BinChangeValue/binary , BinCurValue/binary , Reason:8 >>)};
 
 %% -----------------------------------------------------------------
 %% 错误处理

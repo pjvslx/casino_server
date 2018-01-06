@@ -65,11 +65,16 @@ write(9999, [Host, Port]) ->
 write(10000,[success,PlayerInfo])->
     NameBin = pt:pack_string(PlayerInfo#player.nick),
     Id = PlayerInfo#player.id,
+    StrId = integer_to_list(Id),
+    IdBin = pt:pack_string(StrId),
+
     Gender = PlayerInfo#player.gender,
     Coin = PlayerInfo#player.coin,
     Gold = PlayerInfo#player.gold,
+    StrCoin = integer_to_list(Coin),
+    CoinBin = pt:pack_string(StrCoin),
     ErrorCode = 0,
-    Data = <<ErrorCode:8,Id:64,Gender:8,Coin:64,Gold:32,NameBin/binary>>,
+    Data = <<ErrorCode:8,IdBin/binary,Gender:8,CoinBin/binary,Gold:32,NameBin/binary>>,
     {ok,pt:pack(10000,Data)};
 write(10000,failed)->
     ErrorCode = 1,

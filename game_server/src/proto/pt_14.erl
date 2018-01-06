@@ -6,8 +6,10 @@
 read(14001, _) ->
     {ok, []};
 
-read(14002, <<BetLineNum:8, Bet:64>>) ->
-	{ok, [BetLineNum,Bet]};
+read(14002, <<BetLineNum:8, BetBin/binary>>) ->
+	{Bet,_} = pt:read_string(BetBin),
+	io:format("BetLineNum = ~p,Bet = ~p~n",[BetLineNum,Bet]),
+	{ok, [BetLineNum,list_to_integer(Bet)]};
 
 read(14003, _) ->
 	{ok, []};
@@ -46,7 +48,15 @@ write(14001, [Level,LeftBrick,TotalCoins,GameCoins,PoolCoins,MinBet,MaxBet,LineL
 		<<Line:8>>
 	end,
 	ListBin = list_to_binary(lists:map(F,LineList)),
-	{ok, pt:pack(14001,<<Level:8,LeftBrick:8,TotalCoins:64,GameCoins:64,PoolCoins:64,MinBet:32,MaxBet:32,Length:16,ListBin/binary>>)};
+	StrTotalCoins = integer_to_list(TotalCoins),
+	TotalCoinsBin = pt:pack_string(StrTotalCoins),
+
+	StrGameCoins = integer_to_list(GameCoins),
+	GameCoinsBin = pt:pack_string(StrGameCoins),
+
+	StrPoolCoins = integer_to_list(PoolCoins),
+	PoolCoinsBin = pt:pack_string(StrPoolCoins),
+	{ok, pt:pack(14001,<<Level:8,LeftBrick:8,TotalCoinsBin/binary,GameCoinsBin/binary,PoolCoinsBin/binary,MinBet:32,MaxBet:32,Length:16,ListBin/binary>>)};
 
 write(14002,Data) ->
 	Length = length(Data),
@@ -73,7 +83,9 @@ write(14002,Data) ->
 					ClearCellList
 					)),
 				Reward = tool:floor(ClearReward),
-				<<InnerLength:16,ListBin/binary,Reward:64>>
+				StrReward = integer_to_list(Reward),
+				RewardBin = pt:pack_string(StrReward),
+				<<InnerLength:16,ListBin/binary,RewardBin/binary>>
 			end,
 			ClearInfoList
 			)),
