@@ -99,11 +99,10 @@ CREATE TABLE `charge` (
   `server_id` int(10) NOT NULL COMMENT '服务器编号',
   `account_id` varchar(50) NOT NULL COMMENT '4399平台用户唯一标识',
   `pay_way` tinyint(4) NOT NULL COMMENT '1：手游币兑换2：神州行3：联通4：支付宝',
-  `amount` int(10) NOT NULL COMMENT '支付金额',
+  `amount` int(10) NOT NULL COMMENT '支付金额 单位分',
   `gold` int(10) NOT NULL,
-  `order_status` tinyint(3) NOT NULL COMMENT 'S-成功支付F-支付失败',
+  `order_status` tinyint(3) NOT NULL COMMENT '0-处理中 1-支付成功 2-支付失败',
   `handle_status` tinyint(3) NOT NULL,
-  `dim_lev` int(10) NOT NULL,
   `create_time` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `account_id` (`account_id`)

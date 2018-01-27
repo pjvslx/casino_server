@@ -22,12 +22,13 @@ handle_cmd(10000, [], Data) ->
     if
         Ret == [] ->
             io:format("111111111111~n"),
-            Time = util:unixtime(),
+            NewTime = util:unixtime(),
             io:format("222222222222~n"),
-            db_agent_player:create_role(Imei,"",0,"test",Time,Time),
+            db_agent_player:create_role(Imei,"",0,"test",NewTime,NewTime),
             io:format("333333333333~n"),
             PlayerInfo = db_agent_player:get_info_by_imei(Imei),
-            io:format("444444444444~n");
+            io:format("444444444444~n"),
+            PlayerInfo;
         true ->
             Ret
     end;

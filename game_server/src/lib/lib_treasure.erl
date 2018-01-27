@@ -47,7 +47,18 @@ bet(Player,BetCoins) ->
 	Level = Player#player.other#player_other.treasure_level,
 	io:format("Level = ~p~n",[Level]),
 	BoundLimit = get_boundlimit_by_level(Level),
-	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],1,5,BoundLimit,false),
+	if 
+		Level == 1 ->
+			MinStoneId = 1,
+			MaxStoneId = 5;
+		Level == 2 ->
+			MinStoneId = 6,
+			MaxStoneId = 10;
+		true ->
+			MinStoneId = 11,
+			MaxStoneId = 15
+	end,
+	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],MinStoneId,MaxStoneId,BoundLimit,false),
 	OutputList = deal_one_round(Level,RandomList1,[],BetCoins),
 	io:format("OutputList = ~p~n",[OutputList]),
 	OutputList.

@@ -50,34 +50,25 @@ handoff (Socket) ->
 	io:format("local_gateway handoff~n"),
 	case gen_tcp:recv(Socket, ?HEADER_LENGTH) of
 		{ok, Packet} ->
-			% case http_util:check_ip(Socket) of
-			% 	true ->
-			% 		P = tool:to_list(Packet),
-			% 		P1 = string:left(P, 4), 
-			% 		if (P1 == "GET " orelse P1 == "POST") ->
-			% 			   P2 = string:right(P, length(P) - 4),
-			% 			   lib_charge:do_respone(Socket, P2),
-			% 			   gen_tcp:close(Socket);
-			% 		   true ->
-			% 			   gen_tcp:close(Socket)
-			% 		end;
-			% 	false -> 
-			% 		io:format("ip check fail ~n"),
-			% 		gen_tcp:send(Socket, ?NO_RIGTH_CODE),
-			% 		gen_tcp:close(Socket)
-			% end;
-			io:format("handoff Packet = ~p~n",[Packet]),
-			P = tool:to_list(Packet),
-			io:format("P = ~p~n",[P]),
-			P1 = string:left(P, 4), 
-			io:format("P1 = ~p~n",[P1]),
-			if (P1 == "GET " orelse P1 == "POST") ->
-				   P2 = string:right(P, length(P) - 4),
-				   io:format("P2 = ~p~n",[P2]),
-				   lib_charge:do_respone(Socket, P2),
-				   gen_tcp:close(Socket);
-			   true ->
-				   gen_tcp:close(Socket)
+			case http_util:check_ip(Socket) of
+				true ->
+					io:format("Packet = ~p~n",[Packet]),
+					P = tool:to_list(Packet),
+					io:format("P = ~p~n",[P]),
+					P1 = string:left(P, 4), 
+					io:format("P1 = ~p~n",[P1]),
+					if (P1 == "GET " orelse P1 == "POST") ->
+						   P2 = string:right(P, length(P) - 4),
+						   io:format("P2 = ~p~n",[P2]),
+						   lib_charge:do_respone(Socket, P2),
+						   gen_tcp:close(Socket);
+					   true ->
+						   gen_tcp:close(Socket)
+					end;
+				false -> 
+					io:format("ip check fail ~n"),
+					gen_tcp:send(Socket, ?NO_RIGTH_CODE),
+					gen_tcp:close(Socket)
 			end;
 		_Reason ->
 			gen_tcp:close(Socket)
