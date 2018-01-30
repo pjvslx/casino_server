@@ -168,6 +168,13 @@ handle_cast(stop, Status) ->
 	io:format("------------handle_cast stop~n"),
     {stop, normal, Status};
 
+%%充值
+handle_cast(charge, Status) ->
+    ?TRACE("mod_player handle_cast charge ~n"),
+    NewStatus = lib_player:handle_charge_order(Status),
+    save_online(NewStatus),
+    {noreply, NewStatus};
+
 handle_cast(Event, Status) ->
    ?ERROR_MSG("mod_player_cast: /~p/~n",[[Event, Status]]),
    {noreply, Status}.

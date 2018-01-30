@@ -63,7 +63,7 @@
         return;
     }
 	
-	Utils::request_post(AlipaySetting::$charge_gateway_host,AlipaySetting::$charge_gateway_port,$biz_content);
+	// Utils::request_post(AlipaySetting::$charge_gateway_host,AlipaySetting::$charge_gateway_port,$biz_content);
 	$biz_content_json = json_encode($biz_content);
 
 	$content = array(

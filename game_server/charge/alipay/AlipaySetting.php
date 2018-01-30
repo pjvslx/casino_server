@@ -3,11 +3,12 @@
 	{
 		public static $APP_ID = "2016091300498019";
 		public static $RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALVzlqV+TgIftfZN3CbkF4/fgL4yuaLR4ChnbfEpWUiBvjj2K5dU/ZO+pbPuf9DBFijgBbqJAe65b8eN8/Dx1t8KgFNp6jARrtkbV9etTK0+BZlbRKOl+f07TsRQec8y3l4paFL1gvgBoDIj/lfr9kgockpMDtYJL7htWtccqfFzAgMBAAECgYA9+tewe+5Fh3NuSLY0iqEJwfyF+2mxliMNahcB02/t9nN1nZDSRnO/rdWIGqWKNwpMuAj86KPCWZE3BuQWn2UXg4892nUnKe5/0GvzVrpV4n+TH5Zqgv961Qz7HggrD1czBBlJpjHRbEgtLKRdZLg1oBLy9pX8nE9r4fCy1HCNIQJBANeU77TwriJiJoSbgYjgzZ7BQFY3q8tfQubt+/MYw9j72D1f2B9OQkCLAwK8BU0Qj4mrTMldip2B9js1ooCN7SkCQQDXeIksfUBZlkcmsPMCe+Bj5h8qIWoDEGdBJTNeXuehrOKyUzQlpP2AM3jbqqOSu/oTNY/TDUrv2jfsJu9XkiE7AkEA1HC6Pu4mS0+5cVfksEQHnHgHtG6r5n97aCIA9C/lXz/eeaynR0JRW1UhpGIwPx8gs6OQyaZaYJifUv2po1E48QJAZg8f2kTRcB2wQfFaiXinhmn/pPMCxcTFQ6QdOrv1Ny0ui4zBjHsj38+BlXqz09LZ1rNuFmebcRSJnH+sqmv69QJAHehk29s1GgwSvYtjyG5M/76eslK7qSSkcK2ZitMKjMkf9XPe15iq8IgWsMjRPL6G/x/ihaa8qHx6O6hTER5Qlg==";
+		public static $sellerId = "2088102175371968";
 		public static $expressTime = "30m";
 		public static $productCode = "QUICK_MSECURITY_PAY";
 		public static $signType = "RSA";
 		public static $version = "1.0";
-		public static $notifyUrl = "http://196ns78264.iok.la:33299/notify.php";
+		public static $notifyUrl = "http://196ns78264.iok.la:33299/alipay/notify.php";
 		public static $charge_gateway_host = "192.168.0.109";
 		public static $charge_gateway_port = "7799";
 		public static $DB_HOST = "127.0.0.1";

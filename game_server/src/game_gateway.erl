@@ -8,7 +8,7 @@
 -behaviour(gen_server).
 -export([start_link/1,server_stop/0]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3, 
-		 chk_max_allow/0, set_max_allow/1]).
+		 chk_max_allow/0, set_max_allow/1, unixtime/0]).
 
 -include("common.hrl").
 -include("record.hrl").

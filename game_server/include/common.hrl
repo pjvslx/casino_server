@@ -392,8 +392,9 @@
 -define(UNHANDLE_CHARGE_ORDER, 0).  % 未处理充值订单
 
 %%充值订单状态
+-define(CHARGE_ORDER_STATUS_LOADING, 0).
 -define(CHARGE_ORDER_STATUS_SUCCESSFUL, 1).
--define(CHARGE_ORDER_STATUS_FAILED, 0).
+-define(CHARGE_ORDER_STATUS_FAILED, 2).
 
 %%充值渠道
 -define(CHARGE_CHANEL_GM, 50). %GM指令渠道

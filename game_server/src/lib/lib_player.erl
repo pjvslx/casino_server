@@ -167,3 +167,21 @@ cost_treasure_coin(Status, Num) ->
     Coin = max(Status#player.other#player_other.treasure_score - Num,0),
     NewOther = Status#player.other#player_other{treasure_score = Coin},
     Status#player{other = NewOther}.
+
+handle_charge_order(Status) ->
+    case db_agent_charge:get_all_no_handle_charge_order(Status#player.id, ?UNHANDLE_CHARGE_ORDER) of
+        [] -> Status;
+        List -> 
+        % id, order_id, game_id, server_id, account_id,pay_way, amount, gold, order_status, handle_status, create_time
+            F = fun([Id, OrderId, GameId, ServerId,AccountId,Payway,Amount,Coin,OrderStatus,HandleStatus,CreateTime],Status1) ->
+                    if OrderStatus =:= ?CHARGE_ORDER_STATUS_SUCCESSFUL -> 
+                            NewStatus = add_coin(Status1,Coin);
+                        true ->
+                            NewStatus = Status1
+                    end,
+                    db_agent_charge:update_charge_handle_status(OrderId, ?HANDLE_CHARGE_ORDER),
+                    NewStatus
+            end,
+            lists:foldl(F, Status, List)
+    end.
+    %lib_vip:check_charge_vip(Status). %%检查通过充值获得VIP情况
