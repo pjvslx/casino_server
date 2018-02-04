@@ -402,3 +402,12 @@
 -define(CHARGE_CHANEL_SHEN_ZHOU_XING, 2). %移动神州行
 -define(CHARGE_CHANEL_LIAN_TONG, 3). %联通
 -define(CHARGE_CHANEL_ALIPAY, 4). %支付宝
+
+%%道具属性
+-define(PROP_COIN,1). %金币
+-define(PROP_TREASURE_COIN,100).    %夺宝奖励金币
+
+%%属性增益原因
+-define(REASON_CHARGE,0).   %充值
+-define(REASON_CONSUME_TREASURE,1).        %%1:夺宝下注消耗 2:夺宝消除得钱
+-define(REASON_REWARD_TREASURE,2).

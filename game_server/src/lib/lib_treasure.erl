@@ -45,7 +45,6 @@ get_odds(Level,StoneId,Length)->
 %% lib_treasure:bet(1).
 bet(Player,BetCoins) ->
 	Level = Player#player.other#player_other.treasure_level,
-	io:format("Level = ~p~n",[Level]),
 	BoundLimit = get_boundlimit_by_level(Level),
 	if 
 		Level == 1 ->
@@ -60,7 +59,7 @@ bet(Player,BetCoins) ->
 	end,
 	RandomList1 = random_many_num(BoundLimit * BoundLimit,[],MinStoneId,MaxStoneId,BoundLimit,false),
 	OutputList = deal_one_round(Level,RandomList1,[],BetCoins),
-	io:format("OutputList = ~p~n",[OutputList]),
+	% io:format("OutputList = ~p~n",[OutputList]),
 	OutputList.
 
 deal_one_round(Level,List,OutputList,BetCoins) ->
@@ -117,6 +116,7 @@ deal_one_round(Level,List,OutputList,BetCoins) ->
 			),
 			%%将FilterRet按照重力原理重新组装
 			GravityCellList = gravity(BoundLimit,FilterRet),
+			% io:format("GravityCellList = ~p~n",[GravityCellList]),
 			FlattenCellList = lists:foldl(
 				fun(ColCellList,Sum)->
 					Sum ++ ColCellList
@@ -137,7 +137,7 @@ deal_one_round(Level,List,OutputList,BetCoins) ->
 				fun(RetElement,Sum)->
 					[RetCell|L] = RetElement,
 					Odds = get_odds(Level,RetCell#cell.value,length(RetElement)),
-					io:format("Odds = ~p BetCoins = ~p~n",[Odds,BetCoins]),
+					% io:format("Odds = ~p BetCoins = ~p~n",[Odds,BetCoins]),
 					Sum ++ [{RetElement,Odds * BetCoins}]
 				end,
 				[],
@@ -153,7 +153,7 @@ deal_one_round(Level,List,OutputList,BetCoins) ->
 	end.
 
 get_boundlimit_by_level(Level) ->
-	io:format("Level = ~p~n",[Level]),
+	% io:format("Level = ~p~n",[Level]),
 	if 
 		Level == 1 ->
 			BoundLimit = 4;
@@ -179,8 +179,8 @@ can_clear(Level,StoneId,Length) ->
 	
 
 make_all_clear(Level,RandomList1,BetCoins)->
-	io:format("make_all_clear ~n"),
-	io:format("RandomList1 = ~p~n",[RandomList1]),
+	% io:format("make_all_clear ~n"),
+	% io:format("RandomList1 = ~p~n",[RandomList1]),
 	BoundLimit = get_boundlimit_by_level(Level),
 	% lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
 	Ret = lists:foldl(
@@ -329,7 +329,7 @@ rand_fill_list_test(Level,List,LowBound,HighBound,BoundLimit) ->
 				),
 			if 
 				IsContain /= true ->
-					io:format("Index[~p] is not in the AllList~n",[Index]),
+					% io:format("Index[~p] is not in the AllList~n",[Index]),
 					CellList ++ [Index];
 				true ->
 					CellList

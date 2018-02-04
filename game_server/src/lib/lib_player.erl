@@ -169,7 +169,7 @@ cost_treasure_coin(Status, Num) ->
     Status#player{other = NewOther}.
 
 handle_charge_order(Status) ->
-    case db_agent_charge:get_all_no_handle_charge_order(Status#player.id, ?UNHANDLE_CHARGE_ORDER) of
+    case db_agent_charge:get_all_no_handle_charge_order(Status#player.id) of
         [] -> Status;
         List -> 
         % id, order_id, game_id, server_id, account_id,pay_way, amount, gold, order_status, handle_status, create_time
@@ -180,6 +180,9 @@ handle_charge_order(Status) ->
                             NewStatus = Status1
                     end,
                     db_agent_charge:update_charge_handle_status(OrderId, ?HANDLE_CHARGE_ORDER),
+                    {ok,BinData} = pt_12:write(12001,[Status#player.id,?PROP_COIN,Coin,NewStatus#player.coin,?REASON_CHARGE]),
+                    lib_send:send_to_sid(Status#player.other#player_other.pid_send,BinData),
+                    % lib_send:send_to_sid(Status#player.other#player_other.pid_send, BinData),
                     NewStatus
             end,
             lists:foldl(F, Status, List)

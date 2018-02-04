@@ -60,8 +60,11 @@ is_process_alive(Pid) ->
 %% 					{badrpc, _Reason}  -> false;
 %% 					Res -> Res
 %% 				end;
+				io:format("is_process_alive isPid Pid = ~p~n",[Pid]),
 				erlang:is_process_alive(Pid) ;
-			true -> false
+			true -> 
+				io:format("is_process_alive is not Pid = ~p~n",[Pid]),
+				false
 		end
 	catch 
 		_:_ -> false

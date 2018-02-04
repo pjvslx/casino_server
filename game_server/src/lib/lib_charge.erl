@@ -24,12 +24,19 @@
 -export([do_respone/2,start_charge/1,call_server_for_charge/1]).
 
 get_player_info_local(Id) ->
+	io:format("Id = ~p~n",[Id]),
 	case ets:lookup(?ETS_ONLINE, Id) of
-   		[] -> [];
+   		[] -> 
+   			io:format("111111111~n"),
+   			[];
    		[R] ->
        		case misc:is_process_alive(R#player.other#player_other.pid) of
-           		false -> [];		
-           		true -> R
+           		false -> 
+           			io:format("22222222~n"),
+           			[];		
+           		true -> 
+           			io:format("33333333~n"),
+           			R
        		end
 	end.
 
@@ -45,7 +52,9 @@ start_charge(JsonObj)->
 			io:format("charge condition accepted ~n"),
 			[Id,OrderId,GameId,ServerId,AccountId,PayWay,NewAmount,Coin,OrderStatus,HandleStatus,CreateTime] = Result,
 			db_agent_charge:update_charge_order_status(OrderId,?CHARGE_ORDER_STATUS_SUCCESSFUL),
-			case get_player_info_local(AccountId) of
+			AccountList = binary_to_list(AccountId),
+			ActId = list_to_integer(AccountList),
+			case get_player_info_local(ActId) of
 				[] -> 
 					io:format("11111111 False ~n"),
 					skip;
@@ -69,9 +78,9 @@ check_charge_condition(JsonObj) ->
 		true ->
 			% id, game_id, server_id, account_id,pay_way, amount, gold, order_status, handle_status, create_time
 			[Id,OrderId,GameId,ServerId,AccountId,PayWay,NewAmount,Coin,OrderStatus,HandleStatus,CreateTime] = Ret,
-			IsAvaliable = check_accountid_available(AccountId),
+			IsAvaliable = check_accountid_available(binary_to_list(AccountId)),
 			io:format("IsAvaliable = ~p~n",[IsAvaliable]),
-			io:format("Amount = ~p NewAmount = ~p~n",[Amount,NewAmount]),
+			io:format("Amount = ~p NewAmount = ~p AccountId = ~p~n",[Amount,NewAmount,AccountId]),
 			if 
 				(IsAvaliable == true) and (Amount == NewAmount) ->
 					{true, Ret};

@@ -287,8 +287,17 @@ load_player_info(PlayerId,Socket) ->
         Ret ->
             [TreasureLevel,TreasureLeftBrick,TreasureScore] = Ret
     end,
-    Other = #player_other{socket = Socket, pid_send = PidSendList, current_game = 0,treasure_level = TreasureLevel, treasure_left_brick = TreasureLeftBrick, treasure_score = TreasureScore},
+    Other = #player_other{
+                            socket = Socket, 
+                            pid_send = PidSendList, 
+                            current_game = 0,
+                            treasure_level = TreasureLevel, 
+                            treasure_left_brick = TreasureLeftBrick, 
+                            treasure_score = TreasureScore,
+                            pid = self()
+                            },
     NewPlayer = Player#player{other = Other},
+    update(NewPlayer),
     NewPlayer.
 
 %% 卸载角色数据
