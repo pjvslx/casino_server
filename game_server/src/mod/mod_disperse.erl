@@ -34,6 +34,7 @@ start_link(Ip, Port, Node_id,Gateways) ->
 %% --------------------------------------------------------------------
 init([Ip, Port, ServeId, Gateways]) ->
     State = #server{id = ServeId, ip = Ip, port = Port, node = node(), state = ?SERVER_STATE_HOT, stop_access = 0} ,
+	io:format("serverId = ~p~n",[ServeId]),
 	case ServeId =:= 0 of  
 		true ->		
 			io:format("111111111111111~n"),
@@ -56,6 +57,7 @@ init([Ip, Port, ServeId, Gateways]) ->
 			erlang:send_after(5 * ?FRESH_SERVER_TIMER , self(), {event, load_server}) ,
 			erlang:send_after(?FRESH_SERVER_TIMER, self(), {event, refresh_server_player}) ;
 		false ->	
+			io:format("=====mod_disperse 222222======~n"),
 			statis_server_load(State,Gateways) ,
 			erlang:send_after(?ONLINE_STATIS_TIMER, self(), {fetch_node_load,Gateways})
 	end ,
@@ -71,6 +73,7 @@ init([Ip, Port, ServeId, Gateways]) ->
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
 handle_cast({update_server_state, Server} , State) ->
+	io:format("handle_cast update_server_state ~n"),
 	case ets:lookup(?ETS_SERVER, Server#server.id) of
 		[OldServer|_] when is_record(OldServer,server) ->
 			NewServer = OldServer#server{num = Server#server.num, state = Server#server.state} ;
@@ -355,9 +358,11 @@ get_process_info(Pid_list) ->
 
 
 upload_to_gateway(Server,Gateways)  ->
+	io:format("Gateways = ~p~n",[Gateways]),
 	Fun = fun(Gateway) ->
 				  case net_adm:ping(Gateway) of
 					  pong ->
+					  		io:format("upload_to_gateway pong~n"),
 						  rpc:cast(Gateway, ?MODULE, update_server_state, [Server]) ;
 					  pang ->
 						  skip

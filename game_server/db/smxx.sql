@@ -609,6 +609,7 @@ CREATE TABLE `player` (
   `vip` int(11) NOT NULL DEFAULT '0' COMMENT 'VIP类型，0不是VIP，其他参考common.hrl',
   `vip_expire_time` int(11) NOT NULL DEFAULT '0' COMMENT 'VIP过期时间(秒)',
   `scene` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '场景ID',
+  `recharge` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '充值额度',
   `level` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '等级',
   `exp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '经验',
   `x` int(8) NOT NULL DEFAULT '0' COMMENT '分辨率 X',

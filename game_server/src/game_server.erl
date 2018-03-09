@@ -26,6 +26,8 @@ start([Ip, Port, ServerId, Gateways, LogPath, LogLevel,DbLogPath]) ->
     ok = start_tcp(Port),                       %%开启tcp listener监控树
     ok = start_db_log(DbLogPath),					%%开启数据库日志监控树
     ok = start_disperse([Ip, Port, ServerId, Gateways]),    %%开启服务器路由，连接其他节点  
+    ok = start_treasure([]),
+    ok = start_rank([]),
     timer:sleep(1000),
     %%开启杂项监控树
     ok = start_misc(),
@@ -50,6 +52,18 @@ start_rand() ->
                 permanent, 10000, supervisor, [mod_rand]}),
     ok.
 
+start_treasure([]) ->
+    % {ok, Pid} = mod_treasure:start(),
+    % ?INFO_MSG("~s mod_treasure is started, pid: ~p...\n", [misc:time_format(now()), Pid]),
+    % ok.
+    io:format("======start_treasure=======~n"),
+    {ok, Pid} = mod_treasure:start_treasure(),
+    ok.
+
+start_rank([]) ->
+    io:format("======start_rank=======~n"),
+    {ok, Pid} = mod_rank:start_rank(),
+    ok.
 
 %%开启怪物监控树
 start_mon() ->
@@ -192,15 +206,6 @@ start_dungeon_master() ->
 
 start_statistics() ->
     {ok, _Pid} = mod_statistics:start(),
-    ok.
-
-%% 开启排行榜监控树
-start_rank() ->
-    {ok,_} = supervisor:start_child(
-               game_server_sup,
-               {mod_rank,
-                {mod_rank, start_link,[]},
-                permanent, 10000, supervisor, [mod_rank]}),
     ok.
 
 %% desc: 物品ets表管理

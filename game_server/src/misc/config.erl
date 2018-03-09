@@ -155,6 +155,12 @@ get_gateway_node(App) ->
 	_ -> undefined
     end.
 
+get_provider_select(App) ->
+	case application:get_env(App, provider_select) of
+		{ok,ProviderSelect} -> ProviderSelect;
+		_ -> undefined
+	end.
+
 get_gateway_async_time() ->
 	case application:get_env(gateway,gateway_async_time) of
 	{ok,Async_time} ->Async_time;

@@ -83,6 +83,7 @@ routing2(Cmd, Status, Bin) ->
         %%游戏基础功能处理  
         "10" -> skip;
         "14" -> pp_treasure:handle(Cmd,Status,Bin);
+        "16" -> pp_shop:handle(Cmd,Status,Bin);
         _ -> %%错误处理
             ?ERROR_MSG("Routing Error [~w].", [Cmd]),
             {error, "Routing failure"}

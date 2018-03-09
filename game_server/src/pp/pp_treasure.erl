@@ -120,6 +120,9 @@ handle_cmd(14002, Player, [LineNum,BetNum]) ->
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14002),
 	{ok,FinalPlayer};
 
+handle_cmd(14005, Player, _) ->
+	NewPlayer = lib_treasure:reset_level(Player),
+	{ok,NewPlayer};
 
 handle_cmd(14006, Player, _) ->
 	Level1 = 1,
@@ -128,7 +131,7 @@ handle_cmd(14006, Player, _) ->
 	tpl_treasure_mission:get_by_mission(Level2),
 	Level3 = 3,
 	tpl_treasure_mission:get_by_mission(Level3),
-	pass;
+	{ok,Player};
 
 handle_cmd(_Cmd, _Socket, _Data) ->
     {error, "pp_cmd handle_account no match"}.

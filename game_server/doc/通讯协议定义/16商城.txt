@@ -1,0 +1,27 @@
+%------------------------------------------
+%Protocol: 16000
+%------------------------------------------
+c >> s
+
+%------------------------------------------
+%Protocol: 16001
+%------------------------------------------
+
+%shop_item_list
+%discount_list
+	array(
+		provider:int16
+		array(
+			prop_id:int16,
+			shop_id:string,
+			game_item_id:string,
+			item_name:string,
+			prop_quantity:int32,
+			prop_gift_quantity:int32,
+			price_value:int32,
+			price_unit:int8
+		)
+	)
+
+
+	

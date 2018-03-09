@@ -14,6 +14,11 @@
 	value = 0
     }).	
 
+reset_level(Player) ->
+	PlayerOther = Player#player.other,
+	NewPlayerOther = PlayerOther#player_other{ treasure_left_brick = 15, treasure_level = 1, treasure_score = 0},
+	Player#player{other = NewPlayerOther}.
+
 add_level(Player) ->
 	PlayerOther = Player#player.other,
 	if

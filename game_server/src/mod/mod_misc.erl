@@ -55,8 +55,8 @@ init([]) ->
 	{Todaymidnight,_} = util:get_midnight_seconds(Now),								%得到今天零时时间
 	CostSec = Now - Todaymidnight,													%%今天已过时间
  	%% 半夜十二点通知客户端
-	erlang:send_after(?DAY_TIMER - CostSec*1000, self(), midnight),
-	erlang:send_after(?DAY_TIMER - CostSec*1000-1000, self(), reflesh_rank),	%%刷新排行榜
+	% erlang:send_after(?DAY_TIMER - CostSec*1000, self(), midnight),
+	% erlang:send_after(?DAY_TIMER - CostSec*1000-1000, self(), reflesh_rank),	%%刷新排行榜
 	{ok, State}.
 
 %% --------------------------------------------------------------------

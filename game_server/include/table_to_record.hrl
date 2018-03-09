@@ -1,7 +1,7 @@
 %%%------------------------------------------------	
 %%% File    : table_to_record.erl	
 %%% Author  : smxx	
-%%% Created : 2017-09-17 21:16:24	
+%%% Created : 2018-03-06 19:28:59	
 %%% Description: 从mysql表生成的record	
 %%% Warning:  由程序自动生成，请不要随意修改！	
 %%%------------------------------------------------		
@@ -67,6 +67,7 @@
       bcoin = 0,                              %% 绑定铜钱	
       vip = 0,                                %% VIP类型，0不是VIP，其他参考common.hrl	
       vip_expire_time = 0,                    %% VIP过期时间(秒)	
+      recharge,                               %% 	
       scene = 0,                              %% 场景ID	
       level = 1,                              %% 等级	
       exp = 0,                                %% 经验	
@@ -82,6 +83,21 @@
       line_num = 10,                          %% 相连数	
       odds_factor = 0,                        %% 赔率	
       mission = 1,                            %% 关卡等级	
-      is_crit = 0,                            %% 大奖 全部消除
-      cid = 0                                 %% 唯一主键
+      is_crit = 0,                            %% 	
+      cid                                     %% 	
+    }).	
+	
+%% shop_config	
+%% shop_config ==> shop_config 	
+-record(shop_config, {	
+      id,                                     %% 记录ID	
+      provider,                               %% 	
+      prop_id,                                %% 道具属性ID	
+      shop_id,                                %% db	
+      game_item_id,                           %% 内部用ID	
+      item_name,                              %% 道具名字	
+      price_value,                            %% 价格值	
+      price_unit,                             %% 价格单位1：元 2：角 3：分	
+      prop_quantity,                          %% 购买数量	
+      prop_gift_quantity                      %% 赠送的数量	
     }).	

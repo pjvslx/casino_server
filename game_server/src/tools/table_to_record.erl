@@ -25,7 +25,8 @@
 		 {config_server, config_server},
 		 {server_player, server_player},
          {player, player},
-         {treasure_mission_config,treasure_mission_config}
+         {treasure_mission_config,treasure_mission_config},
+         {shop_config,shop_config}
     ]).
 
 
