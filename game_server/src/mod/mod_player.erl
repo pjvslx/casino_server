@@ -42,6 +42,8 @@ init([PlayerId, _AccountId, Socket]) ->
 
 	%%加载玩家数据和各种逻辑
 	Status = load_player_info(PlayerId,Socket),
+    %%上传排行榜进程信息
+    gen_server:cast(mod_rank:get_mod_rank_pid(),{new_player,PlayerId,Status#player.recharge,Status#player.coin}),
 	{ok, Status} .
 
 %% 路由
@@ -82,7 +84,9 @@ routing2(Cmd, Status, Bin) ->
     case [H1, H2] of
         %%游戏基础功能处理  
         "10" -> skip;
+        "11" -> pp_chat:handle(Cmd,Status,Bin);
         "14" -> pp_treasure:handle(Cmd,Status,Bin);
+        "15" -> pp_rank:handle(Cmd,Status,Bin);
         "16" -> pp_shop:handle(Cmd,Status,Bin);
         _ -> %%错误处理
             ?ERROR_MSG("Routing Error [~w].", [Cmd]),
@@ -404,13 +408,15 @@ save_player_table(Status) ->
                     vip,                                 %% VIP等级
                     vip_expire_time,                     %% VIP失效时间 
                     logout_time,                         %%退出时间
-                    gold
+                    gold,
+                    recharge
                     ],
     ValueList = [   Status#player.coin,
                     Status#player.vip,                   %%VIP等级
                     Status#player.vip_expire_time,       %%VIP失效时间
                     util:unixtime(),
-                    Status#player.gold
+                    Status#player.gold,
+                    Status#player.recharge
                 ] , 
                  db_agent_player:save_player_table(Status#player.id, FieldList, ValueList),
     Status.

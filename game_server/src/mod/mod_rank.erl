@@ -9,6 +9,8 @@
 -export([handle_call/3, handle_cast/2, handle_info/2, init/1,terminate/2]).
 -compile(export_all).
 
+%%Status [{uid,recharge,coin,nick,head}]
+
 start_link() ->
     gen_server:start_link(?MODULE, [], []).
 
@@ -72,23 +74,23 @@ handle_call({apply_call, Module, Method, Args}, _From, State) ->
 handle_call({get_rank_by_recharge}, _From, State) ->
     NewState = lists:sort(
         fun(A,B)-> 
-            {_,Recharge1,_} = A,
-            {_,Recharge2,_} = B,
+            {_,Recharge1,_,_,_} = A,
+            {_,Recharge2,_,_,_} = B,
             Recharge1 > Recharge2
         end
         ,State),
-    {reply, NewState, NewState};
+    {reply, NewState, State};
 
 handle_call({get_rank_by_coin}, _From, State) ->
     NewState = lists:sort(
         fun(A,B)->
-            {_,_,Coin1} = A,
-            {_,_,Coin2} = B,
+            {_,_,Coin1,_,_} = A,
+            {_,_,Coin2,_,_} = B,
             A > B
         end,
         State
         ),
-    {reply, NewState, NewState};
+    {reply, NewState, State};
 
 handle_call(_Request, _From, State) ->
     {reply, State, State}.
@@ -101,16 +103,16 @@ handle_cast({apply_cast, Module, Method, Args}, State) ->
 handle_cast({set_coin,Uid,NewCoin}, State) ->
     case lists:keyfind(Uid,1,State) of
         Tuple ->
-            {_,Recharge,Coin} = Tuple,
-            NewState = lists:keyreplace(Uid,1,State,{Uid,Recharge,NewCoin});
+            {_,Recharge,Coin,Nick,Head} = Tuple,
+            NewState = lists:keyreplace(Uid,1,State,{Uid,Recharge,NewCoin,Nick,Head});
         false ->
             NewState = State
     end,
     io:format("NewState = ~p~n",[NewState]),
     {noreply,NewState};
 
-handle_cast({new_player,Uid,Recharge,Coin},State) ->
-    NewState = lists:keystore(Uid,1,State,{Uid,Recharge,Coin}),
+handle_cast({new_player,Uid,Recharge,Coin,Nick,Head},State) ->
+    NewState = lists:keystore(Uid,1,State,{Uid,Recharge,Coin,Nick,Head}),
     {noreply,NewState};
 
 handle_cast(_Msg, State) ->

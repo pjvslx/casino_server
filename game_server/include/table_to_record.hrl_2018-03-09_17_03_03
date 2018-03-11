@@ -1,7 +1,7 @@
 %%%------------------------------------------------	
 %%% File    : table_to_record.erl	
 %%% Author  : smxx	
-%%% Created : 2018-03-09 17:04:51	
+%%% Created : 2018-03-06 19:28:59	
 %%% Description: 从mysql表生成的record	
 %%% Warning:  由程序自动生成，请不要随意修改！	
 %%%------------------------------------------------		
@@ -67,9 +67,8 @@
       bcoin = 0,                              %% 绑定铜钱	
       vip = 0,                                %% VIP类型，0不是VIP，其他参考common.hrl	
       vip_expire_time = 0,                    %% VIP过期时间(秒)	
+      recharge,                               %% 	
       scene = 0,                              %% 场景ID	
-      recharge = 0,                           %% 充值额度	
-      head = <<"0">>,                         %% 头像	
       level = 1,                              %% 等级	
       exp = 0,                                %% 经验	
       x = 0,                                  %% 分辨率 X	
