@@ -99,8 +99,16 @@ write(14002,Data) ->
 			{ok, pt:pack(14002,<<1:8,Length:16>>)}
 	end;
 
+write(14004, [JackpotNum]) ->
+	StrJackpotNum = integer_to_list(JackpotNum),
+	JackpotNumBin = pt:pack_string(StrJackpotNum),
+	{ok,<<JackpotNumBin/binary>>};
+
 write(14007, [Level,LeftBrick]) ->
 	{ok, pt:pack(14007,<<Level:8,LeftBrick:8>>)};
+
+write(14008, []) ->
+	{ok, pt:pack(14008,<<0:8>>)};
 
 write(Cmd, _R) ->
 ?INFO_MSG("~s_errorcmd_[~p] ",[misc:time_format(game_timer:now()), Cmd]),

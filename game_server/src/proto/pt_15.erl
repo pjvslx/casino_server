@@ -27,9 +27,9 @@ write(15001, RankList) ->
     Bin = list_to_binary(lists:map(F,RankList)),
     if
         Length /= 0 ->
-            {ok, pt:pack(16000,<<Length:16,Bin/binary>>)};
+            {ok, pt:pack(15001,<<Length:16,Bin/binary>>)};
         true ->
-            {ok, pt:pack(16000,<<Length:16>>)}
+            {ok, pt:pack(15001,<<Length:16>>)}
     end;
 
 %% -----------------------------------------------------------------

@@ -18,6 +18,8 @@ handle_cmd(14001, Player, _) ->
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send,Data14000),
 	{ok,Data14001} = pt_14:write(14001,[PlayerOther#player_other.treasure_level,PlayerOther#player_other.treasure_left_brick,Player#player.coin,PlayerOther#player_other.treasure_score,9999999888888,20,200,[1,2,3,4,5]]),
 	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14001),
+	TreasurePid = mod_treasure:get_mod_treasure_pid(),
+	gen_server:call(TreasurePid,{enter_treasure,Player#player.id}),
 	{ok,Player};
 
 % [{[{1,1,2},
@@ -61,6 +63,8 @@ handle_cmd(14002, Player, [LineNum,BetNum]) ->
 					{ok,Data12001_1} = pt_12:write(12001,[Player#player.id,100,-CostCoin,NewPlayer1#player.other#player_other.treasure_score,1]),
 					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_1),
 					NewPlayer2 = lib_player:cost_coin(NewPlayer1, CostCoin - TreasureCoins ),
+					TreasurePid = mod_treasure:get_mod_treasure_pid(),
+					gen_server:cast(TreasurePid,{change_jackpot, CostCoin - TreasureCoins}),
 					{ok,Data12001_2} = pt_12:write(12001,[Player#player.id,1,-(CostCoin - TreasureCoins),NewPlayer2#player.coin,1]),
 					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_2);
 				true ->
@@ -68,7 +72,8 @@ handle_cmd(14002, Player, [LineNum,BetNum]) ->
 					{ok,Data12001_1} = pt_12:write(12001,[Player#player.id,100,-CostCoin,NewPlayer2#player.other#player_other.treasure_score,1]),
 					lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data12001_1)
 			end,
-			DataList = lib_treasure:bet(NewPlayer2,BetNum),
+
+			DataList = lib_treasure:bet(NewPlayer2,CostCoin),
 			{ok,Data14002} = pt_14:write(14002,DataList),
 			AllReward = lists:foldl(
 							fun({_,ClearInfoList},Sum)->
@@ -131,6 +136,13 @@ handle_cmd(14006, Player, _) ->
 	tpl_treasure_mission:get_by_mission(Level2),
 	Level3 = 3,
 	tpl_treasure_mission:get_by_mission(Level3),
+	{ok,Player};
+
+handle_cmd(14007, Player, _) ->
+	TreasurePid = mod_treasure:get_mod_treasure_pid(),
+	gen_server:call(TreasurePid,{leave_treasure,Player#player.id}),
+	Data14008 = pt_14:write(14008,[]),
+	lib_send:send_to_sid(Player#player.other#player_other.pid_send, Data14008),
 	{ok,Player};
 
 handle_cmd(_Cmd, _Socket, _Data) ->

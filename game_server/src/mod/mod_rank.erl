@@ -112,6 +112,7 @@ handle_cast({set_coin,Uid,NewCoin}, State) ->
     {noreply,NewState};
 
 handle_cast({new_player,Uid,Recharge,Coin,Nick,Head},State) ->
+    io:format("handle_cast new_player Uid = ~p Recharge = ~p Coin = ~p Nick = ~p Head = ~p~n",[Uid,Recharge,Coin,Nick,Head]),
     NewState = lists:keystore(Uid,1,State,{Uid,Recharge,Coin,Nick,Head}),
     {noreply,NewState};
 

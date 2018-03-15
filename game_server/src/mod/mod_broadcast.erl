@@ -12,7 +12,7 @@
 start_link() ->
     gen_server:start_link(?MODULE, [], []).
 
-start_rank() ->
+start_broadcast() ->
     Pid = case supervisor:start_child(game_server_sup,
                                 {mod_broadcast, 
                                  {mod_broadcast, start_link, []},
@@ -25,93 +25,50 @@ start_rank() ->
     misc:register(local, ?MODULE, Pid),
     {ok, Pid}.
 
-get_mod_broad_pid() ->
+get_mod_broadcast_pid() ->
     case misc:whereis_name({local, ?MODULE}) of
         Pid when is_pid(Pid) ->
             case misc:is_process_alive(Pid) of
                 true ->
                     Pid;                
                 false -> 
-                    start_mod_rank(?MODULE)
+                    start_mod_broadcast(?MODULE)
             end;
         _ ->
-            start_mod_rank(?MODULE)
+            start_mod_broadcast(?MODULE)
     end.
 
-start_mod_rank(ProcessName) ->
+start_mod_broadcast(ProcessName) ->
     case misc:whereis_name({local, ProcessName}) of
         Pid when is_pid(Pid) ->
             case misc:is_process_alive(Pid) of
                 true -> 
                     Pid;
                 false -> 
-                    start_rank()
+                    start_broadcast()
             end;
         _ ->
-            start_rank()
+            start_broadcast()
     end .
 
 init([]) ->
-    io:format("mod_rank init~n"),
-    List = db_agent_rank:get_all_player(),
-    TupleList = lists:map(
-        fun(L)->
-            Tuple = list_to_tuple(L)
-        end,
-        List
-        ),
-    {ok, TupleList}.
+    io:format("mod_broadcast init~n"),
+    {ok, []}.
 
 test()->
-    io:format("mod_rank test ~n").
+    io:format("mod_broadcast test ~n").
 
 handle_call({apply_call, Module, Method, Args}, _From, State) -> 
     Reply  = ?APPLY(Module, Method, Args,[]),
     {reply, Reply, State};
 
-handle_call({get_rank_by_recharge}, _From, State) ->
-    NewState = lists:sort(
-        fun(A,B)-> 
-            {_,Recharge1,_} = A,
-            {_,Recharge2,_} = B,
-            Recharge1 > Recharge2
-        end
-        ,State),
-    {reply, NewState, NewState};
-
-handle_call({get_rank_by_coin}, _From, State) ->
-    NewState = lists:sort(
-        fun(A,B)->
-            {_,_,Coin1} = A,
-            {_,_,Coin2} = B,
-            A > B
-        end,
-        State
-        ),
-    {reply, NewState, NewState};
-
 handle_call(_Request, _From, State) ->
     {reply, State, State}.
 
 handle_cast({apply_cast, Module, Method, Args}, State) ->
-    io:format("---- mod_rank apply_cast : [~p/~p/~p]~n", [Module, Method, Args]),    
+    io:format("---- mod_broadcast apply_cast : [~p/~p/~p]~n", [Module, Method, Args]),    
      ?APPLY(Module, Method, Args,[]),
     {noreply, State};
-
-handle_cast({set_coin,Uid,NewCoin}, State) ->
-    case lists:keyfind(Uid,1,State) of
-        Tuple ->
-            {_,Recharge,Coin} = Tuple,
-            NewState = lists:keyreplace(Uid,1,State,{Uid,Recharge,NewCoin});
-        false ->
-            NewState = State
-    end,
-    io:format("NewState = ~p~n",[NewState]),
-    {noreply,NewState};
-
-handle_cast({new_player,Uid,Recharge,Coin},State) ->
-    NewState = lists:keystore(Uid,1,State,{Uid,Recharge,Coin}),
-    {noreply,NewState};
 
 handle_cast(_Msg, State) ->
     {noreply, State}.

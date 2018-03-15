@@ -148,12 +148,14 @@ add_coin(Status, 0) ->
     Status;
 add_coin(Status, Num) ->
     Coin = max(Status#player.coin + Num, 0),
-    %%     db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    gen_server:cast(mod_rank:get_mod_rank_pid(),{set_coin,Status#player.id,Coin}),
     Status#player{coin = Coin}.
 %%消耗铜钱
 cost_coin(Status, Num) ->
     Coin = max(Status#player.coin - Num, 0),
-    %%     db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    db_agent_player:save_player_table(Status#player.id, [coin], [Coin]),
+    gen_server:cast(mod_rank:get_mod_rank_pid(),{set_coin,Status#player.id,Coin}),
     Status#player{coin = Coin}.
 
 add_treasure_coin(Status, 0) ->

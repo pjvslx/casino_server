@@ -43,7 +43,7 @@ init([PlayerId, _AccountId, Socket]) ->
 	%%加载玩家数据和各种逻辑
 	Status = load_player_info(PlayerId,Socket),
     %%上传排行榜进程信息
-    gen_server:cast(mod_rank:get_mod_rank_pid(),{new_player,PlayerId,Status#player.recharge,Status#player.coin}),
+    gen_server:cast(mod_rank:get_mod_rank_pid(),{new_player,PlayerId,Status#player.recharge,Status#player.coin,Status#player.nick,Status#player.head}),
 	{ok, Status} .
 
 %% 路由
@@ -310,6 +310,7 @@ unload_player_info(Status) ->
 	%% 保存状态数据
 	Now = util:unixtime(),
     save_online(Status),
+    gen_server:call({leave_treasure,Status#player.id}),
 	%%删除玩家节点ETS相关信息
 	delete_player_ets(Status#player.id), 
 	Status.
